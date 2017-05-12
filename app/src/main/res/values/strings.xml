@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MatchMatch</string>
+    <string name="network_error_message">Network Error</string>
+    <string name="unknown_error_message">Unknown Error</string>
+    <string name="signout">Sign out</string>
+    <string name="setting">Settings</string>
+    <string name="tools">Tools</string>
+    <string name="about">About</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>

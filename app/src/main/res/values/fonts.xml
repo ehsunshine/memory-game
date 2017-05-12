@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="font_retraven">fonts/RetravantGarden.ttf</string>
+    <string name="font_wizzta">fonts/wizzta.ttf</string>
+</resources>
