@@ -3,16 +3,20 @@ package ir.jaryaan.matchmatch.ui.board;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.utils.scheduler.SchedulerProvider;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
+
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_MATCHED;
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOTHING;
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOT_MATCHED;
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
 
 /**
  * Created by ehsun on 5/12/2017.
@@ -20,15 +24,17 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BoardPresenter implements BoardContract.Presenter {
 
+    private GameManagerContract gameManager;
     private BoardContract.View view;
     private ImageRepositoryContract imageRepository;
     private SchedulerProvider schedulerProvider;
-    private List<Card> cards = new ArrayList<>();
     private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public BoardPresenter(@NonNull ImageRepositoryContract imageRepository,
+                          @NonNull GameManagerContract gameManager,
                           @NonNull SchedulerProvider schedulerProvider) {
         this.imageRepository = imageRepository;
+        this.gameManager = gameManager;
         this.schedulerProvider = schedulerProvider;
     }
 
@@ -40,7 +46,7 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public void onViewInitialized() {
         view.showLoading();
-        Subscription subscription = imageRepository.getCardImages(12, "Cat", 4)
+        Subscription subscription = imageRepository.getCardImages(2, "Cat", 4)
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
                 .subscribe(cardImages -> {
@@ -56,11 +62,9 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     private void initialGame(List<CardImage> cardImages) {
 
-        for (CardImage image : cardImages) {
-            Card card = new Card(image.getId(), image);
-            cards.add(card);
-        }
-        view.generateBoard(cards);
+        gameManager.initialGame(cardImages);
+
+        view.generateBoard(gameManager.getCards());
     }
 
 
@@ -92,4 +96,18 @@ public class BoardPresenter implements BoardContract.Presenter {
         }
     }
 
+    @Override
+    public void onCardClicked(Card card) {
+        int cardStatus = gameManager.flip(card);
+        switch (cardStatus) {
+            case CARD_STATUS_NOTHING:
+            case CARD_STATUS_WAITING_FOR_MATCH:
+                break;
+            case CARD_STATUS_MATCHED:
+                view.showErrorMessage("Matched");
+                break;
+            case CARD_STATUS_NOT_MATCHED:
+                break;
+        }
+    }
 }

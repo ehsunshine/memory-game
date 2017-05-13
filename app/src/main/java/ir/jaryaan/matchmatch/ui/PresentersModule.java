@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import dagger.Module;
 import dagger.Provides;
+import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.ui.board.BoardContract;
 import ir.jaryaan.matchmatch.ui.board.BoardPresenter;
@@ -32,7 +33,8 @@ public class PresentersModule {
 
     @Provides
     public BoardContract.Presenter provideBoardPresenter(@NonNull ImageRepositoryContract imageRepository,
+                                                         @NonNull GameManagerContract gameManager,
                                                          @NonNull SchedulerProvider schedulerProvider) {
-        return new BoardPresenter(imageRepository, schedulerProvider);
+        return new BoardPresenter(imageRepository, gameManager, schedulerProvider);
     }
 }

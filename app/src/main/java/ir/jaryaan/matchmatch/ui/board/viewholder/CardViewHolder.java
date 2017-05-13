@@ -39,7 +39,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     private CardListener cardListener;
 
 
-    private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int spanNumber, int cardNumber, @NonNull CardListener cardListener) {
+    private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int cardNumber, int spanNumber, @NonNull CardListener cardListener) {
         super(itemView);
         this.context = itemView.getContext().getApplicationContext();
         this.cardListener = cardListener;

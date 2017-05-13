@@ -19,5 +19,6 @@ public interface BoardContract {
 
     interface Presenter extends BasePresenterContract<BoardContract.View> {
 
+        void onCardClicked(Card card);
     }
 }

@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ir.jaryaan.matchmatch.model.manager.GameManager;
+import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepository;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.network.ApiService;
@@ -28,5 +30,11 @@ public class ManagerModule {
     public ImageRepositoryContract provideImageRepository(@NonNull ApiService apiService,
                                                           @NonNull SharedPreferences sharedPreferences) {
         return new ImageRepository(apiService);
+    }
+
+    @Provides
+    @Singleton
+    public GameManagerContract provideGameManager() {
+        return new GameManager();
     }
 }

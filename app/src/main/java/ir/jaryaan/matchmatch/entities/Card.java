@@ -2,14 +2,18 @@ package ir.jaryaan.matchmatch.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+
+import java.lang.annotation.Retention;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * Created by ehsun on 5/12/2017.
@@ -31,23 +35,28 @@ public class Card implements Parcelable {
             return new Card[size];
         }
     };
+    public static final int CARD_STATUS_NOTHING = 0;
+    public static final int CARD_STATUS_WAITING_FOR_MATCH = 1;
+    public static final int CARD_STATUS_MATCHED = 2;
+    public static final int CARD_STATUS_NOT_MATCHED = 3;
     private int id;
     private CardImage cardImage;
     private boolean faceDown;
-
-    public void flip() {
-        faceDown = !faceDown;
-    }
 
     public Card(int id, @NonNull CardImage cardImage)
     {
         this.id = id;
         this.cardImage = cardImage;
+        this.faceDown = true;
     }
 
     protected Card(Parcel in) {
         this.id = in.readInt();
         this.cardImage = in.readParcelable(CardImage.class.getClassLoader());
+    }
+
+    public void flip() {
+        faceDown = !faceDown;
     }
 
     @Override
@@ -69,5 +78,10 @@ public class Card implements Parcelable {
 
         Card card = (Card) object;
         return this.id == card.getId();
+    }
+
+    @Retention(SOURCE)
+    @IntDef({CARD_STATUS_WAITING_FOR_MATCH, CARD_STATUS_MATCHED, CARD_STATUS_NOT_MATCHED, CARD_STATUS_NOTHING})
+    public @interface CardStatus {
     }
 }
