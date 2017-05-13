@@ -55,14 +55,15 @@ public class BoardPresenter implements BoardContract.Presenter {
     }
 
     private void initialGame(List<CardImage> cardImages) {
-        cardImages.addAll(cardImages);
-        Collections.shuffle(cardImages);
+
         for (CardImage image : cardImages) {
             Card card = new Card(image.getId(), image);
             cards.add(card);
         }
         view.generateBoard(cards);
     }
+
+
 
     @Override
     public void onViewResumed() {

@@ -2,6 +2,7 @@ package ir.jaryaan.matchmatch.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode(of = "Id")
 public class Card implements Parcelable {
     public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
         @Override
@@ -33,6 +33,17 @@ public class Card implements Parcelable {
     };
     private int id;
     private CardImage cardImage;
+    private boolean faceDown;
+
+    public void flip() {
+        faceDown = !faceDown;
+    }
+
+    public Card(int id, @NonNull CardImage cardImage)
+    {
+        this.id = id;
+        this.cardImage = cardImage;
+    }
 
     protected Card(Parcel in) {
         this.id = in.readInt();
@@ -48,5 +59,15 @@ public class Card implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeParcelable(this.cardImage, flags);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Card)) {
+            return false;
+        }
+
+        Card card = (Card) object;
+        return this.id == card.getId();
     }
 }
