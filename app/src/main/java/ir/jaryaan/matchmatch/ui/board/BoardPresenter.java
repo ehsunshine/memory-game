@@ -20,10 +20,10 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BoardPresenter implements BoardContract.Presenter {
 
-    BoardContract.View view;
-    ImageRepositoryContract imageRepository;
-    SchedulerProvider schedulerProvider;
-    List<Card> cards = new ArrayList<>();
+    private BoardContract.View view;
+    private ImageRepositoryContract imageRepository;
+    private SchedulerProvider schedulerProvider;
+    private List<Card> cards = new ArrayList<>();
     private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public BoardPresenter(@NonNull ImageRepositoryContract imageRepository,

@@ -18,12 +18,14 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private static final int TYPE_CARD = 1;
     private static final int TYPE_INVISIBLE = 2;
+    private final int spanCount;
 
     private List<Card> cardList = new ArrayList<>();
     private BoardEventListener boardEventListener;
 
-    public BoardAdapter(@NonNull BoardEventListener boardEventListener) {
+    public BoardAdapter(@NonNull BoardEventListener boardEventListener, int spanCount) {
         this.boardEventListener = boardEventListener;
+        this.spanCount = spanCount;
     }
 
     @Override
@@ -32,6 +34,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 .parent(parent)
                 .cardListener(card -> boardEventListener.onCardClick(card))
                 .cardNumber(cardList.size())
+                .spanNumber(spanCount)
                 .build();
     }
 

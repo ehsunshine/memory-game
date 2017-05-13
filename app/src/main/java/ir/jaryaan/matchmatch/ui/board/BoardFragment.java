@@ -25,6 +25,7 @@ import ir.jaryaan.matchmatch.ui.board.adapter.BoardAdapter;
 
 public class BoardFragment extends BaseFragment implements BoardContract.View, BoardAdapter.BoardEventListener {
 
+    private static final int SPAN_COUNT = 4;
     @Inject
     BoardContract.Presenter presenter;
     @BindView(R.id.root_container)
@@ -68,8 +69,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, B
     protected void initViews() {
 
         updateScreenTitle(getString(R.string.app_name));
-        adapter = new BoardAdapter(this);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        adapter = new BoardAdapter(this, SPAN_COUNT);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT));
         recyclerView.setAdapter(adapter);
         presenter.onViewInitialized();
 

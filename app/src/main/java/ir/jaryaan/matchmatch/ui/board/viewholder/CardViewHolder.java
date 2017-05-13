@@ -26,6 +26,7 @@ import ir.jaryaan.matchmatch.entities.Card;
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
+    private final int spanNumber;
     @BindView(R.id.face_image_view)
     ImageView faceImageView;
     @BindView(R.id.body_container)
@@ -38,20 +39,21 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     private CardListener cardListener;
 
 
-    private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int cardNumber, @NonNull CardListener cardListener) {
+    private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int spanNumber, int cardNumber, @NonNull CardListener cardListener) {
         super(itemView);
         this.context = itemView.getContext().getApplicationContext();
         this.cardListener = cardListener;
         this.parent = parent;
         this.cardNumber = cardNumber;
+        this.spanNumber = spanNumber;
         ButterKnife.bind(this, itemView);
         calculateItemSize();
 
     }
 
     private void calculateItemSize() {
-        int numberOfRows = cardNumber / 4;
-        itemView.setLayoutParams(new RelativeLayout.LayoutParams(parent.getWidth() / 4, parent.getHeight() / numberOfRows));
+        int numberOfRows = cardNumber / spanNumber;
+        itemView.setLayoutParams(new RelativeLayout.LayoutParams(parent.getWidth() / spanNumber, parent.getHeight() / numberOfRows));
     }
 
 
@@ -133,6 +135,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         private ViewGroup parent;
         private CardListener cardListener;
         private int cardNumber;
+        private int spanCount;
 
         @NonNull
         public Builder parent(@NonNull ViewGroup parent) {
@@ -156,7 +159,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         public CardViewHolder build() {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.grid_item_card_item, parent, false);
-            return new CardViewHolder(view, parent, cardNumber, cardListener);
+            return new CardViewHolder(view, parent, cardNumber, spanCount, cardListener);
+        }
+
+        public Builder spanNumber(int spanCount) {
+            this.spanCount = spanCount;
+            return this;
         }
     }
 
