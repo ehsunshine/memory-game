@@ -100,8 +100,8 @@ public class BoardPresenter implements BoardContract.Presenter {
         Subscription subscription = gameManager.flip(card)
                 .subscribeOn(schedulerProvider.getComputationScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
-                .subscribe(result -> {
-                    switch (result) {
+                .subscribe(status -> {
+                    switch (status) {
                         case CARD_STATUS_NOTHING:
                             view.showErrorMessage("Nothing");
                             break;

@@ -4,15 +4,35 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 
+import ir.jaryaan.matchmatch.entities.Card;
+import lombok.Builder;
+
 /**
  * Created by E.Mehranvari on 5/14/2017.
  */
+@Builder
+public class CardAnimationUtil {
 
-public class AnimationUtil {
     private View view;
+    private View faceImageView;
+    private View backImageView;
+    private Card card;
+
+
+    public void flipCardRight() {
+
+        if (card.isFaceDown()) {
+            flipRight90degree();
+        }
+    }
+
+    public void undoCard() {
+        flipLeft90degree();
+    }
+
     private void flipRight90degree() {
-        view
-                .animate()
+
+        view.animate()
                 .rotationY(90)
                 .setDuration(300)
                 .setListener(new AnimatorListenerAdapter() {
@@ -26,11 +46,11 @@ public class AnimationUtil {
                         }
                     }
                 });
+
     }
 
     private void flipLeft90degree() {
-        view
-                .animate()
+        view.animate()
                 .rotationY(-90)
                 .setDuration(300)
                 .setListener(new AnimatorListenerAdapter() {
@@ -47,8 +67,7 @@ public class AnimationUtil {
     }
 
     private void flipLeft180degree() {
-        view
-                .animate()
+        view.animate()
                 .rotationY(-180)
                 .setDuration(300)
                 .setListener(null);

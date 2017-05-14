@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.view.View;
 
 import java.lang.annotation.Retention;
 
@@ -43,12 +42,7 @@ public class Card implements Parcelable {
     private int id;
     private CardImage cardImage;
     private boolean faceDown;
-    private View view;
-
-    public void setView(@NonNull View view)
-    {
-        this.view = view;
-    }
+    ;
 
     public Card(int id, @NonNull CardImage cardImage)
     {

@@ -58,6 +58,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void setCards(@NonNull List<Card> cardList) {
         this.cardList.clear();
         this.cardList.addAll(cardList);
+
         notifyDataSetChanged();
     }
 

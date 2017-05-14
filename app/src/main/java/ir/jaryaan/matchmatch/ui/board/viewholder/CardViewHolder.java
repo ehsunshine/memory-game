@@ -1,7 +1,5 @@
 package ir.jaryaan.matchmatch.ui.board.viewholder;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -19,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.entities.Card;
+import ir.jaryaan.matchmatch.utils.CardAnimationUtil;
 
 /**
  * Created by ehsun on 5/12/2017.
@@ -58,7 +57,6 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
 
 
     public void onBindView(@NonNull Card card) {
-        card.setView(bodyContainer);
         this.card = card;
 
         Picasso.with(context)
@@ -70,11 +68,18 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.body_container)
     void onMessageBodyClick() {
+
+        CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build()
+                .flipCardRight();
+
         if (cardListener != null) {
             cardListener.onCardClick(bodyContainer, card);
         }
     }
-
 
 
     public interface CardListener {
