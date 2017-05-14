@@ -68,19 +68,29 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.body_container)
     void onMessageBodyClick() {
-
-        CardAnimationUtil.builder()
-                .view(bodyContainer)
-                .faceImageView(faceImageView)
-                .card(card)
-                .build()
-                .flipCardRight();
-
+        flipCardRight();
         if (cardListener != null) {
             cardListener.onCardClick(bodyContainer, card);
         }
     }
 
+    public void flipCardRight() {
+        CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build()
+                .flipCard();
+    }
+
+    public void flipCardLeft() {
+        CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build()
+                .undoCard();
+    }
 
     public interface CardListener {
         void onCardClick(View view, @NonNull Card card);

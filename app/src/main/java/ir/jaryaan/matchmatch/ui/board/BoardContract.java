@@ -15,6 +15,7 @@ public interface BoardContract {
 
         void generateBoard(List<Card> cards);
 
+        void flipCardsBack(Card firstCard, Card secondCard);
     }
 
     interface Presenter extends BasePresenterContract<BoardContract.View> {

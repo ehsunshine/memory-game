@@ -19,7 +19,7 @@ public class CardAnimationUtil {
     private Card card;
 
 
-    public void flipCardRight() {
+    public void flipCard() {
 
         if (card.isFaceDown()) {
             flipRight90degree();

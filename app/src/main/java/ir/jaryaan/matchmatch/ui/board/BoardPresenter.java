@@ -100,8 +100,8 @@ public class BoardPresenter implements BoardContract.Presenter {
         Subscription subscription = gameManager.flip(card)
                 .subscribeOn(schedulerProvider.getComputationScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
-                .subscribe(status -> {
-                    switch (status) {
+                .subscribe(cardFlipStatus -> {
+                    switch (cardFlipStatus.getStatus()) {
                         case CARD_STATUS_NOTHING:
                             view.showErrorMessage("Nothing");
                             break;
@@ -111,9 +111,11 @@ public class BoardPresenter implements BoardContract.Presenter {
                         case CARD_STATUS_MATCHED:
                             view.showErrorMessage("Matched");
                             break;
-                        case CARD_STATUS_NOT_MATCHED:
+                        case CARD_STATUS_NOT_MATCHED: {
                             view.showErrorMessage("Not Matched");
+                            view.flipCardsBack(cardFlipStatus.getFirstCard(), cardFlipStatus.getSecondCard());
                             break;
+                        }
                     }
                 }, throwable -> view.showErrorMessage(throwable));
 

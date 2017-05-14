@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.ui.board.viewholder.CardViewHolder;
@@ -23,8 +25,10 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private List<Card> cardList = new ArrayList<>();
     private BoardEventListener boardEventListener;
+    private Map<Integer, CardViewHolder> viewholders = new HashMap<>();
 
     public BoardAdapter(@NonNull BoardEventListener boardEventListener, int spanCount) {
+
         this.boardEventListener = boardEventListener;
         this.spanCount = spanCount;
     }
@@ -41,6 +45,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        viewholders.put(position, ((CardViewHolder) holder));
         Card card = cardList.get(position);
         ((CardViewHolder) holder).onBindView(card);
     }
@@ -60,6 +65,11 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.cardList.addAll(cardList);
 
         notifyDataSetChanged();
+    }
+
+    public void flipCards(Card firstCard, Card secondCard) {
+        viewholders.get(cardList.indexOf(firstCard)).flipCardLeft();
+        viewholders.get(cardList.indexOf(secondCard)).flipCardLeft();
     }
 
 

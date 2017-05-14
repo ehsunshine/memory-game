@@ -8,15 +8,21 @@ import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import ir.jaryaan.matchmatch.model.entities.CardFlipStatus;
 import rx.Observable;
+
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_MATCHED;
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOTHING;
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOT_MATCHED;
+import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
 
 /**
  * Created by E.Mehranvari on 5/13/2017.
  */
 
 public class GameManager implements GameManagerContract {
-    private List<Card> cards;
     private static Card firstFlippedCard;
+    private List<Card> cards;
 
     @Override
     public void initialGame(@NonNull List<CardImage> cardImages) {
@@ -35,25 +41,45 @@ public class GameManager implements GameManagerContract {
 
 
     @Override
-
-    public Observable<Integer> flip(@NonNull Card card) {
+    @NonNull
+    public Observable<CardFlipStatus> flip(@NonNull Card card) {
 
         if (card.isFaceDown()) {
             card.flip();
             if (firstFlippedCard == null) {
                 firstFlippedCard = card;
-                return Observable.just(Card.CARD_STATUS_WAITING_FOR_MATCH);
+                return Observable.just(CardFlipStatus
+                        .builder()
+                        .firstCard(firstFlippedCard)
+                        .secondCard(null)
+                        .status(CARD_STATUS_WAITING_FOR_MATCH)
+                        .build());
             } else {
 
                 if (matchCards(firstFlippedCard, card)) {
-                    return Observable.just(Card.CARD_STATUS_MATCHED);
+                    return Observable.just(CardFlipStatus
+                            .builder()
+                            .firstCard(firstFlippedCard)
+                            .secondCard(card)
+                            .status(CARD_STATUS_MATCHED)
+                            .build());
                 } else {
-                    return Observable.just(Card.CARD_STATUS_NOT_MATCHED);
+                    return Observable.just(CardFlipStatus
+                            .builder()
+                            .firstCard(firstFlippedCard)
+                            .secondCard(card)
+                            .status(CARD_STATUS_NOT_MATCHED)
+                            .build());
                 }
 
             }
         } else {
-            return Observable.just(Card.CARD_STATUS_NOTHING);
+            return Observable.just(CardFlipStatus
+                    .builder()
+                    .firstCard(null)
+                    .secondCard(null)
+                    .status(CARD_STATUS_NOTHING)
+                    .build());
         }
     }
 

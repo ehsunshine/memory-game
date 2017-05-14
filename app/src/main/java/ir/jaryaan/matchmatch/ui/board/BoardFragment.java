@@ -59,6 +59,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, B
     }
 
     @Override
+    public void flipCardsBack(Card firstCard, Card secondCard) {
+        adapter.flipCards(firstCard, secondCard);
+    }
+
+    @Override
     protected void injectDependencies() {
         applicationComponent.inject(this);
         presenter.onBindView(this);

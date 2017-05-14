@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import ir.jaryaan.matchmatch.model.entities.CardFlipStatus;
 import rx.Observable;
 
 /**
@@ -17,7 +17,8 @@ public interface GameManagerContract {
 
     void initialGame(@NonNull List<CardImage> cardImages);
 
-    Observable<Integer> flip(@NonNull Card card);
+    @NonNull
+    Observable<CardFlipStatus> flip(@NonNull Card card);
 
     @NonNull
     List<Card> getCards();
