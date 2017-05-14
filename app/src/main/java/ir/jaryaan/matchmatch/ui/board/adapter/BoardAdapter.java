@@ -2,6 +2,7 @@ package ir.jaryaan.matchmatch.ui.board.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CardViewHolder.Builder()
                 .parent(parent)
-                .cardListener(card -> boardEventListener.onCardClick(card))
+                .cardListener((view, card) -> boardEventListener.onCardClick(view, card))
                 .cardNumber(cardList.size())
                 .spanNumber(spanCount)
                 .build();
@@ -62,7 +63,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public interface BoardEventListener {
-        void onCardClick(@NonNull Card card);
+        void onCardClick(@NonNull View view, @NonNull Card card);
     }
 
 

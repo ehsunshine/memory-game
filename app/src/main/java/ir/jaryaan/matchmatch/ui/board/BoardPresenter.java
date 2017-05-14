@@ -46,7 +46,7 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public void onViewInitialized() {
         view.showLoading();
-        Subscription subscription = imageRepository.getCardImages(2, "Cat", 4)
+        Subscription subscription = imageRepository.getCardImages(16, "Cat", 4)
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
                 .subscribe(cardImages -> {
@@ -66,7 +66,6 @@ public class BoardPresenter implements BoardContract.Presenter {
 
         view.generateBoard(gameManager.getCards());
     }
-
 
 
     @Override
@@ -98,16 +97,26 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     @Override
     public void onCardClicked(Card card) {
-        int cardStatus = gameManager.flip(card);
-        switch (cardStatus) {
-            case CARD_STATUS_NOTHING:
-            case CARD_STATUS_WAITING_FOR_MATCH:
-                break;
-            case CARD_STATUS_MATCHED:
-                view.showErrorMessage("Matched");
-                break;
-            case CARD_STATUS_NOT_MATCHED:
-                break;
-        }
+        Subscription subscription = gameManager.flip(card)
+                .subscribeOn(schedulerProvider.getComputationScheduler())
+                .observeOn(schedulerProvider.getMainScheduler())
+                .subscribe(result -> {
+                    switch (result) {
+                        case CARD_STATUS_NOTHING:
+                            view.showErrorMessage("Nothing");
+                            break;
+                        case CARD_STATUS_WAITING_FOR_MATCH:
+                            view.showErrorMessage("Waiting");
+                            break;
+                        case CARD_STATUS_MATCHED:
+                            view.showErrorMessage("Matched");
+                            break;
+                        case CARD_STATUS_NOT_MATCHED:
+                            view.showErrorMessage("Not Matched");
+                            break;
+                    }
+                }, throwable -> view.showErrorMessage(throwable));
+
+        compositeSubscription.add(subscription);
     }
 }

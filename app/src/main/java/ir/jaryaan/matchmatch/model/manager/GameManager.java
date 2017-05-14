@@ -8,6 +8,7 @@ import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import rx.Observable;
 
 /**
  * Created by E.Mehranvari on 5/13/2017.
@@ -15,42 +16,44 @@ import ir.jaryaan.matchmatch.entities.CardImage;
 
 public class GameManager implements GameManagerContract {
     private List<Card> cards;
-    private Card firstFlippedCard;
+    private static Card firstFlippedCard;
 
     @Override
     public void initialGame(@NonNull List<CardImage> cardImages) {
         List<Card> cardList = new ArrayList<>();
         for (CardImage image : cardImages) {
-            Card card = new Card(image.getId(), image);
-            cardList.add(card);
+            cardList.add(new Card(image.getId(), image));
+            cardList.add(new Card(image.getId(), image));
         }
-        this.cards = duplicateAndShuffleList(cardList);
+        this.cards = shuffleList(cardList);
     }
 
-    private List<Card> duplicateAndShuffleList(List<Card> cards) {
-        cards.addAll(cards);
+    private List<Card> shuffleList(List<Card> cards) {
         Collections.shuffle(cards);
         return cards;
     }
 
 
     @Override
-    @Card.CardStatus
-    public int flip(@NonNull Card card) {
+
+    public Observable<Integer> flip(@NonNull Card card) {
 
         if (card.isFaceDown()) {
             card.flip();
             if (firstFlippedCard == null) {
                 firstFlippedCard = card;
-                return Card.CARD_STATUS_WAITING_FOR_MATCH;
+                return Observable.just(Card.CARD_STATUS_WAITING_FOR_MATCH);
             } else {
-                return matchCards(firstFlippedCard, card) ?
-                        Card.CARD_STATUS_MATCHED :
-                        Card.CARD_STATUS_NOT_MATCHED;
+
+                if (matchCards(firstFlippedCard, card)) {
+                    return Observable.just(Card.CARD_STATUS_MATCHED);
+                } else {
+                    return Observable.just(Card.CARD_STATUS_NOT_MATCHED);
+                }
 
             }
         } else {
-            return Card.CARD_STATUS_NOTHING;
+            return Observable.just(Card.CARD_STATUS_NOTHING);
         }
     }
 
@@ -61,12 +64,12 @@ public class GameManager implements GameManagerContract {
     }
 
     private boolean matchCards(Card firstCard, Card secondCard) {
+        firstFlippedCard = null;
         if (firstCard.equals(secondCard)) {
             return true;
         } else {
             firstCard.flip();
             secondCard.flip();
-            firstFlippedCard = null;
             return false;
         }
     }

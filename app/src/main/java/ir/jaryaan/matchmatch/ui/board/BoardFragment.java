@@ -83,7 +83,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, B
     }
 
     @Override
-    public void onCardClick(@NonNull Card card) {
+    public void onCardClick(@NonNull View view, @NonNull Card card) {
         presenter.onCardClicked(card);
     }
 }

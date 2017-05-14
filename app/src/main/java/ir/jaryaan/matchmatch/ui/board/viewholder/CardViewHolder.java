@@ -58,6 +58,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
 
 
     public void onBindView(@NonNull Card card) {
+        card.setView(bodyContainer);
         this.card = card;
 
         Picasso.with(context)
@@ -69,66 +70,15 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.body_container)
     void onMessageBodyClick() {
-        flipRight90degree();
         if (cardListener != null) {
-            cardListener.onCardClick(card);
+            cardListener.onCardClick(bodyContainer, card);
         }
     }
 
-    private void flipRight90degree() {
-        bodyContainer
-                .animate()
-                .rotationY(90)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (faceImageView.getVisibility() == View.GONE) {
-                            faceImageView.setVisibility(View.VISIBLE);
-                            flipRight180degree();
-                        } else {
-                            flipLeft90degree();
-                        }
-                    }
-                });
-    }
 
-    private void flipLeft90degree() {
-        bodyContainer
-                .animate()
-                .rotationY(-90)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (faceImageView.getVisibility() == View.VISIBLE) {
-                            faceImageView.setVisibility(View.GONE);
-                            flipLeft180degree();
-                        } else {
-                            flipRight90degree();
-                        }
-                    }
-                });
-    }
-
-    private void flipLeft180degree() {
-        bodyContainer
-                .animate()
-                .rotationY(-180)
-                .setDuration(300)
-                .setListener(null);
-    }
-
-    private void flipRight180degree() {
-        bodyContainer
-                .animate()
-                .rotationY(180)
-                .setDuration(300)
-                .setListener(null);
-    }
 
     public interface CardListener {
-        void onCardClick(@NonNull Card card);
+        void onCardClick(View view, @NonNull Card card);
     }
 
     public static class Builder {
