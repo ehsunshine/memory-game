@@ -73,6 +73,10 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         viewholders.get(cardList.indexOf(secondCard)).flipCardLeft();
     }
 
+    public void winCards(Card firstCard, Card secondCard) {
+        viewholders.get(cardList.indexOf(firstCard)).moveCardToDeck();
+        viewholders.get(cardList.indexOf(secondCard)).moveCardToDeck();
+    }
 
     public interface BoardEventListener {
         void onCardClick(@NonNull Card card);

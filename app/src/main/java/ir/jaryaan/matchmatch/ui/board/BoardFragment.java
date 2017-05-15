@@ -1,6 +1,7 @@
 package ir.jaryaan.matchmatch.ui.board;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,14 +17,20 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.entities.Card;
+import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.ui.base.BaseFragment;
 import ir.jaryaan.matchmatch.ui.board.adapter.BoardAdapter;
+import ir.jaryaan.matchmatch.ui.main.MainActivity;
 
 /**
  * Created by ehsun on 5/12/2017.
  */
 
-public class BoardFragment extends BaseFragment implements BoardContract.View, BoardAdapter.BoardEventListener {
+public class BoardFragment extends BaseFragment implements
+        BoardContract.View, BoardAdapter.BoardEventListener,
+        GameManager.GameEventListener {
+
+    private Handler handler = new Handler();
 
     private static final int SPAN_COUNT = 4;
     @Inject
@@ -60,7 +67,14 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, B
 
     @Override
     public void flipCardsBack(Card firstCard, Card secondCard) {
-        adapter.flipCards(firstCard, secondCard);
+
+        handler.postDelayed(() -> adapter.flipCards(firstCard, secondCard), 1000L);
+    }
+
+    @Override
+    public void winCards(Card firstCard, Card secondCard) {
+
+        handler.postDelayed(() -> adapter.winCards(firstCard, secondCard), 1000L);
     }
 
     @Override
@@ -90,5 +104,16 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, B
     @Override
     public void onCardClick(@NonNull Card card) {
         presenter.onCardClicked(card);
+    }
+
+    @Override
+    public void onGameInProgress(@NonNull String remainingTime) {
+        ((MainActivity) getActivity()).setTimerValue(remainingTime);
+
+    }
+
+    @Override
+    public void onGameOver() {
+        showErrorMessage("Game Over!!!!!!!");
     }
 }

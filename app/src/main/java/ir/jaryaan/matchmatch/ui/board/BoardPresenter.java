@@ -7,6 +7,7 @@ import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.utils.scheduler.SchedulerProvider;
@@ -46,7 +47,7 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public void onViewInitialized() {
         view.showLoading();
-        Subscription subscription = imageRepository.getCardImages(2, "Cat", 4)
+        Subscription subscription = imageRepository.getCardImages(10, "Cat", 4)
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
                 .subscribe(cardImages -> {
@@ -62,8 +63,8 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     private void initialGame(List<CardImage> cardImages) {
 
-        gameManager.initialGame(cardImages);
-
+        gameManager.initialGame(cardImages, (GameManager.GameEventListener) view);
+        gameManager.start();
         view.generateBoard(gameManager.getCards());
     }
 
@@ -110,6 +111,7 @@ public class BoardPresenter implements BoardContract.Presenter {
                             break;
                         case CARD_STATUS_MATCHED:
                             view.showErrorMessage("Matched");
+                            view.winCards(cardFlipStatus.getFirstCard(), cardFlipStatus.getSecondCard());
                             break;
                         case CARD_STATUS_NOT_MATCHED: {
                             view.showErrorMessage("Not Matched");

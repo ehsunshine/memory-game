@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -36,6 +37,8 @@ public class MainActivity extends BaseActivity implements
     NavigationView navigationView;
     @BindView(R.id.fragment_container)
     FrameLayout fragmentContainer;
+    @BindView(R.id.timerTextView)
+    TextView timerTextView;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -81,6 +84,11 @@ public class MainActivity extends BaseActivity implements
                 .replace(R.id.fragment_container, BoardFragment.newInstance())
                 .commit();
 
+    }
+
+    public void setTimerValue(String timerValue)
+    {
+        timerTextView.setText(timerValue);
     }
 
     @Override

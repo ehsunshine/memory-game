@@ -12,6 +12,7 @@ import java.util.Random;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -26,6 +27,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode(of = "id")
 public class Card implements Parcelable {
     public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
         @Override
@@ -46,13 +48,17 @@ public class Card implements Parcelable {
     private CardImage cardImage;
     private boolean faceDown;
     private SecureRandom random = new SecureRandom();
+    private boolean collected;
 
-    public Card(@NonNull CardImage cardImage)
-    {
-        Random rand = new Random();
-        this.id = rand.nextInt((1000 - 10) + 1) + 10;
+    public Card(int id, @NonNull CardImage cardImage) {
+        this.id = id;
         this.cardImage = cardImage;
         this.faceDown = true;
+    }
+
+    public void collect() {
+
+        collected = true;
     }
 
     protected Card(Parcel in) {
@@ -75,14 +81,9 @@ public class Card implements Parcelable {
         dest.writeParcelable(this.cardImage, flags);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Card)) {
-            return false;
-        }
+    public boolean isMatchWith(Card newCard) {
 
-        Card card = (Card) object;
-        return this.getCardImage().getId() == card.getCardImage().getId();
+        return this.getCardImage().getId() == newCard.getCardImage().getId();
     }
 
     @Retention(SOURCE)

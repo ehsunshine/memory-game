@@ -74,7 +74,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void flipCardRight() {
+    private void flipCardRight() {
         CardAnimationUtil.builder()
                 .view(bodyContainer)
                 .faceImageView(faceImageView)
@@ -89,7 +89,18 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
                 .faceImageView(faceImageView)
                 .card(card)
                 .build()
-                .undoCard();
+                .flipBackCard();
+
+    }
+
+    public void moveCardToDeck() {
+        CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build()
+                .moveToDeck();
+
     }
 
     public interface CardListener {

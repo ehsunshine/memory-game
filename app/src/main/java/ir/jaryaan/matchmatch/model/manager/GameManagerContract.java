@@ -15,11 +15,16 @@ import rx.Observable;
 
 public interface GameManagerContract {
 
-    void initialGame(@NonNull List<CardImage> cardImages);
+    void initialGame(@NonNull List<CardImage> cardImages,
+                     @NonNull GameManager.GameEventListener gameEventListener);
 
     @NonNull
     Observable<CardFlipStatus> flip(@NonNull Card card);
 
     @NonNull
     List<Card> getCards();
+
+    void start();
+
+    void gameOver();
 }

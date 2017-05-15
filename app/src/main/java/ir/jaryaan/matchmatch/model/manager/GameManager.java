@@ -1,10 +1,17 @@
 package ir.jaryaan.matchmatch.model.manager;
 
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
@@ -23,14 +30,20 @@ import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
 public class GameManager implements GameManagerContract {
     private static Card firstFlippedCard;
     private List<Card> cards;
-    private boolean firstCardShouldBeCleard;
+    private boolean firstCardShouldBeCleared;
+    private GameEventListener gameEventListener;
+    private CountDownTimer countDownTimer;
 
     @Override
-    public void initialGame(@NonNull List<CardImage> cardImages) {
+    public void initialGame(@NonNull List<CardImage> cardImages, @NonNull GameEventListener gameEventListener) {
+        this.gameEventListener = gameEventListener;
+
         List<Card> cardList = new ArrayList<>();
         for (CardImage image : cardImages) {
-            cardList.add(new Card(image));
-            cardList.add(new Card(image));
+            Random rand = new Random();
+
+            cardList.add(new Card(rand.nextInt(9999), image));
+            cardList.add(new Card(rand.nextInt(9999), image));
         }
         this.cards = shuffleList(cardList);
     }
@@ -45,10 +58,9 @@ public class GameManager implements GameManagerContract {
     @NonNull
     public Observable<CardFlipStatus> flip(@NonNull Card card) {
 
-        if(firstCardShouldBeCleard)
-        {
+        if (firstCardShouldBeCleared) {
             firstFlippedCard = null;
-            firstCardShouldBeCleard = false;
+            firstCardShouldBeCleared = false;
         }
 
         if (card.isFaceDown()) {
@@ -96,16 +108,60 @@ public class GameManager implements GameManagerContract {
         return cards;
     }
 
+    @Override
+    public void start() {
+
+        countDownTimer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                Duration duration = new Duration(millisUntilFinished);
+                Period period = duration.toPeriod();
+                PeriodFormatter minutesAndSeconds = new PeriodFormatterBuilder()
+                        .printZeroAlways()
+                        .appendMinutes()
+                        .appendSeparator(":")
+                        .appendSeconds()
+                        .toFormatter();
+                gameEventListener.onGameInProgress(minutesAndSeconds.print(period));
+            }
+
+            public void onFinish() {
+                gameOver();
+            }
+        }.start();
+    }
+
+    @Override
+    public void gameOver() {
+        int collectedCards = 0;
+        for (Card card : cards) {
+            if (card.isCollected()) {
+                collectedCards++;
+            }
+        }
+        if(collectedCards != cards.size())
+        {
+            gameEventListener.onGameOver();
+        }
+    }
+
     private boolean matchCards(Card firstCard, Card secondCard) {
 
-        firstCardShouldBeCleard = true;
+        firstCardShouldBeCleared = true;
 
-        if (firstCard.equals(secondCard)) {
+        if (firstCard.isMatchWith(secondCard)) {
+            firstCard.collect();
+            secondCard.collect();
             return true;
         } else {
             firstCard.flip();
             secondCard.flip();
             return false;
         }
+    }
+
+    public interface GameEventListener {
+        void onGameInProgress(@NonNull String remainingTime);
+        void onGameOver();
     }
 }
