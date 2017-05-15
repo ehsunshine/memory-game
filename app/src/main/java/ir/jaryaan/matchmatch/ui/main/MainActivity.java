@@ -39,6 +39,8 @@ public class MainActivity extends BaseActivity implements
     FrameLayout fragmentContainer;
     @BindView(R.id.timerTextView)
     TextView timerTextView;
+    @BindView(R.id.scoreTextView)
+    TextView scoreTextView;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -94,5 +96,9 @@ public class MainActivity extends BaseActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    public void setScoreValue(String score) {
+        scoreTextView.setText(score);
     }
 }

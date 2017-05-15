@@ -27,4 +27,6 @@ public interface GameManagerContract {
     void start();
 
     void gameOver();
+
+    boolean isGameFinished();
 }

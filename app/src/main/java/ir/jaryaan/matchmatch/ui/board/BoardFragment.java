@@ -30,8 +30,6 @@ public class BoardFragment extends BaseFragment implements
         BoardContract.View, BoardAdapter.BoardEventListener,
         GameManager.GameEventListener {
 
-    private Handler handler = new Handler();
-
     private static final int SPAN_COUNT = 4;
     @Inject
     BoardContract.Presenter presenter;
@@ -41,7 +39,7 @@ public class BoardFragment extends BaseFragment implements
     RecyclerView recyclerView;
     @BindView(R.id.loading_container)
     View loadingView;
-
+    private Handler handler = new Handler();
     private BoardAdapter adapter;
 
     public static BoardFragment newInstance() {
@@ -115,5 +113,15 @@ public class BoardFragment extends BaseFragment implements
     @Override
     public void onGameOver() {
         showErrorMessage("Game Over!!!!!!!");
+    }
+
+    @Override
+    public void onGameCompleted() {
+        showErrorMessage("Finished!!!!!!!");
+    }
+
+    @Override
+    public void onScoreChanged(int score) {
+        ((MainActivity) getActivity()).setScoreValue(getString(R.string.score, score));
     }
 }

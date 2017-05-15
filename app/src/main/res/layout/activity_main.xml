@@ -26,13 +26,23 @@
                 app:theme="@style/ToolBarStyle">
 
                 <TextView
+                    android:id="@+id/scoreTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:text="Score: 0"
+                    android:textSize="@dimen/text_size_xlarge" />
+
+                <TextView
                     android:id="@+id/timerTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/keyline_1"
                     android:layout_gravity="end"
-                    android:textSize="@dimen/text_size_large"
-                    android:text="@string/setting" />
+                    android:layout_marginEnd="@dimen/keyline_1"
+                    android:text="@string/timer"
+                    android:textSize="@dimen/text_size_large" />
 
             </android.support.v7.widget.Toolbar>
 

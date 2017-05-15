@@ -1,5 +1,6 @@
 package ir.jaryaan.matchmatch.model.manager;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 
@@ -33,6 +34,12 @@ public class GameManager implements GameManagerContract {
     private boolean firstCardShouldBeCleared;
     private GameEventListener gameEventListener;
     private CountDownTimer countDownTimer;
+    private SharedPreferences sharedPreferences;
+    private int currentScore = 0;
+
+    public GameManager(@NonNull SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 
     @Override
     public void initialGame(@NonNull List<CardImage> cardImages, @NonNull GameEventListener gameEventListener) {
@@ -76,6 +83,11 @@ public class GameManager implements GameManagerContract {
             } else {
 
                 if (matchCards(firstFlippedCard, card)) {
+                    gameEventListener.onScoreChanged(++currentScore);
+                    if (isGameFinished()) {
+                        countDownTimer.cancel();
+                        gameEventListener.onGameCompleted();
+                    }
                     return Observable.just(CardFlipStatus
                             .builder()
                             .firstCard(firstFlippedCard)
@@ -111,7 +123,7 @@ public class GameManager implements GameManagerContract {
     @Override
     public void start() {
 
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        countDownTimer = new CountDownTimer(90000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 Duration duration = new Duration(millisUntilFinished);
@@ -133,16 +145,23 @@ public class GameManager implements GameManagerContract {
 
     @Override
     public void gameOver() {
+
+        if (!isGameFinished()) {
+            gameEventListener.onGameOver();
+        } else {
+            gameEventListener.onGameCompleted();
+        }
+    }
+
+    @Override
+    public boolean isGameFinished() {
         int collectedCards = 0;
         for (Card card : cards) {
             if (card.isCollected()) {
                 collectedCards++;
             }
         }
-        if(collectedCards != cards.size())
-        {
-            gameEventListener.onGameOver();
-        }
+        return collectedCards == cards.size();
     }
 
     private boolean matchCards(Card firstCard, Card secondCard) {
@@ -162,6 +181,11 @@ public class GameManager implements GameManagerContract {
 
     public interface GameEventListener {
         void onGameInProgress(@NonNull String remainingTime);
+
         void onGameOver();
+
+        void onGameCompleted();
+
+        void onScoreChanged(int score);
     }
 }

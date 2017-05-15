@@ -27,14 +27,13 @@ public class ManagerModule {
 
     @Provides
     @Singleton
-    public ImageRepositoryContract provideImageRepository(@NonNull ApiService apiService,
-                                                          @NonNull SharedPreferences sharedPreferences) {
+    public ImageRepositoryContract provideImageRepository(@NonNull ApiService apiService) {
         return new ImageRepository(apiService);
     }
 
     @Provides
     @Singleton
-    public GameManagerContract provideGameManager() {
-        return new GameManager();
+    public GameManagerContract provideGameManager(@NonNull SharedPreferences sharedPreferences) {
+        return new GameManager(sharedPreferences);
     }
 }
