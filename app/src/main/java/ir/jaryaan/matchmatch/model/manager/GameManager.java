@@ -23,13 +23,14 @@ import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
 public class GameManager implements GameManagerContract {
     private static Card firstFlippedCard;
     private List<Card> cards;
+    private boolean firstCardShouldBeCleard;
 
     @Override
     public void initialGame(@NonNull List<CardImage> cardImages) {
         List<Card> cardList = new ArrayList<>();
         for (CardImage image : cardImages) {
-            cardList.add(new Card(image.getId(), image));
-            cardList.add(new Card(image.getId(), image));
+            cardList.add(new Card(image));
+            cardList.add(new Card(image));
         }
         this.cards = shuffleList(cardList);
     }
@@ -43,6 +44,12 @@ public class GameManager implements GameManagerContract {
     @Override
     @NonNull
     public Observable<CardFlipStatus> flip(@NonNull Card card) {
+
+        if(firstCardShouldBeCleard)
+        {
+            firstFlippedCard = null;
+            firstCardShouldBeCleard = false;
+        }
 
         if (card.isFaceDown()) {
             card.flip();
@@ -90,7 +97,9 @@ public class GameManager implements GameManagerContract {
     }
 
     private boolean matchCards(Card firstCard, Card secondCard) {
-        firstFlippedCard = null;
+
+        firstCardShouldBeCleard = true;
+
         if (firstCard.equals(secondCard)) {
             return true;
         } else {

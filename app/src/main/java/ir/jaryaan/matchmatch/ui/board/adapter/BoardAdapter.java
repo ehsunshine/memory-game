@@ -37,7 +37,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CardViewHolder.Builder()
                 .parent(parent)
-                .cardListener((view, card) -> boardEventListener.onCardClick(view, card))
+                .cardListener(card -> boardEventListener.onCardClick(card))
                 .cardNumber(cardList.size())
                 .spanNumber(spanCount)
                 .build();
@@ -45,9 +45,10 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        viewholders.put(position, ((CardViewHolder) holder));
+
         Card card = cardList.get(position);
         ((CardViewHolder) holder).onBindView(card);
+        viewholders.put(position, ((CardViewHolder) holder));
     }
 
     @Override
@@ -74,7 +75,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public interface BoardEventListener {
-        void onCardClick(@NonNull View view, @NonNull Card card);
+        void onCardClick(@NonNull Card card);
     }
 
 

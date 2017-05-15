@@ -6,6 +6,9 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import java.lang.annotation.Retention;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,11 +45,12 @@ public class Card implements Parcelable {
     private int id;
     private CardImage cardImage;
     private boolean faceDown;
-    ;
+    private SecureRandom random = new SecureRandom();
 
-    public Card(int id, @NonNull CardImage cardImage)
+    public Card(@NonNull CardImage cardImage)
     {
-        this.id = id;
+        Random rand = new Random();
+        this.id = rand.nextInt((1000 - 10) + 1) + 10;
         this.cardImage = cardImage;
         this.faceDown = true;
     }
@@ -78,7 +82,7 @@ public class Card implements Parcelable {
         }
 
         Card card = (Card) object;
-        return this.id == card.getId();
+        return this.getCardImage().getId() == card.getCardImage().getId();
     }
 
     @Retention(SOURCE)

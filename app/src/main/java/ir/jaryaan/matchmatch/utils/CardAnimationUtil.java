@@ -27,7 +27,9 @@ public class CardAnimationUtil {
     }
 
     public void undoCard() {
-        flipLeft90degree();
+        if (card.isFaceDown()) {
+            flipLeft90degree();
+        }
     }
 
     private void flipRight90degree() {

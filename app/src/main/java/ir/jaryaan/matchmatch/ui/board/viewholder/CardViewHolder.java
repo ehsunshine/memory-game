@@ -70,7 +70,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     void onMessageBodyClick() {
         flipCardRight();
         if (cardListener != null) {
-            cardListener.onCardClick(bodyContainer, card);
+            cardListener.onCardClick(card);
         }
     }
 
@@ -93,7 +93,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     }
 
     public interface CardListener {
-        void onCardClick(View view, @NonNull Card card);
+        void onCardClick(@NonNull Card card);
     }
 
     public static class Builder {

@@ -46,7 +46,7 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public void onViewInitialized() {
         view.showLoading();
-        Subscription subscription = imageRepository.getCardImages(16, "Cat", 4)
+        Subscription subscription = imageRepository.getCardImages(2, "Cat", 4)
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
                 .subscribe(cardImages -> {
