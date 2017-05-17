@@ -10,15 +10,19 @@
     </style>
 
     <style name="MaterialTheme" parent="AppThemeWithActionBar">
-        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <style name="HomeTheme" parent="AppTheme">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
     <style name="LaunchMaterialTheme" parent="AppThemeWithActionBar">
-        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>

@@ -8,6 +8,8 @@ import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.ui.board.BoardContract;
 import ir.jaryaan.matchmatch.ui.board.BoardPresenter;
+import ir.jaryaan.matchmatch.ui.home.HomeContract;
+import ir.jaryaan.matchmatch.ui.home.HomePresenter;
 import ir.jaryaan.matchmatch.ui.launch.LaunchContract;
 import ir.jaryaan.matchmatch.ui.launch.LaunchPresenter;
 import ir.jaryaan.matchmatch.ui.main.MainContract;
@@ -36,5 +38,10 @@ public class PresentersModule {
                                                          @NonNull GameManagerContract gameManager,
                                                          @NonNull SchedulerProvider schedulerProvider) {
         return new BoardPresenter(imageRepository, gameManager, schedulerProvider);
+    }
+
+    @Provides
+    public HomeContract.Presenter provideHomePresenter() {
+        return new HomePresenter();
     }
 }

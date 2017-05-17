@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.ui.base.BaseActivity;
-import ir.jaryaan.matchmatch.ui.main.MainActivity;
+import ir.jaryaan.matchmatch.ui.home.HomeActivity;
 
 /**
  * Created by ehsun on 5/12/2017.
@@ -43,7 +43,7 @@ public class LaunchActivity extends BaseActivity implements LaunchContract.View 
 
     @Override
     public void showHomeScreen() {
-        startActivity(MainActivity.newIntent(this));
+        startActivity(HomeActivity.newIntent(this));
         finish();
 
     }

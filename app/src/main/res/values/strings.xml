@@ -10,4 +10,9 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="timer">00:00</string>
     <string name="score">Score: %d</string>
+    <string name="easy">Easy</string>
+    <string name="insane">Insane</string>
+    <string name="hard">Hard</string>
+    <string name="normal">Normal</string>
+    <string name="nickname">Nickname</string>
 </resources>

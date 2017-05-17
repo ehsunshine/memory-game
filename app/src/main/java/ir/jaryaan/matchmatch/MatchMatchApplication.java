@@ -5,6 +5,7 @@ import android.app.Application;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import ir.jaryaan.matchmatch.model.ManagerModule;
+import ir.jaryaan.matchmatch.model.gateways.GatewaysModule;
 import ir.jaryaan.matchmatch.model.source.SourceModule;
 import ir.jaryaan.matchmatch.network.NetworkModule;
 import ir.jaryaan.matchmatch.ui.PresentersModule;
@@ -34,6 +35,7 @@ public class MatchMatchApplication extends Application {
                 .networkModule(new NetworkModule())
                 .presentersModule(new PresentersModule())
                 .sourceModule(new SourceModule(this))
+                .gatewaysModule(new GatewaysModule())
                 .managerModule(new ManagerModule(this))
                 .utilsModule(new UtilsModule(this))
                 .build();
