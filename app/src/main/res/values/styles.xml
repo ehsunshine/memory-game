@@ -17,6 +17,14 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <style name="DialogMaterialTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
     <style name="HomeTheme" parent="AppTheme">
         <item name="android:background">@color/colorPrimary</item>
     </style>

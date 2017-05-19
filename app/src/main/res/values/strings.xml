@@ -15,4 +15,7 @@
     <string name="hard">Hard</string>
     <string name="normal">Normal</string>
     <string name="nickname">Nickname</string>
+    <string name="cat">Kitten</string>
+    <string name="dog">Dog</string>
+    <string name="human">Human</string>
 </resources>

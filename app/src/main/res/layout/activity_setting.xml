@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="128dp"
+    android:minWidth="320dp"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_large">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/catRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:checked="true"
+            android:text="@string/cat"
+            android:textSize="@dimen/text_size_normal" />
+
+        <RadioButton
+            android:id="@+id/dogRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/text_size_normal"
+            android:checked="false"
+            android:text="@string/dog"
+            android:textSize="@dimen/spacing_normal" />
+
+        <RadioButton
+            android:id="@+id/humanRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:checked="false"
+            android:text="@string/human"
+            android:textSize="@dimen/text_size_normal" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/save_settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:background="@color/colorAccent"
+        android:text="@string/insane"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_large" />
+</LinearLayout>

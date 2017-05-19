@@ -3,19 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrey400"
-    android:padding="@dimen/spacing_large">
+    android:background="@color/colorGrey400">
+
+    <ImageView
+        android:id="@+id/settingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:clickable="true"
+        android:src="@drawable/ic_settings_black_24dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_x_large"
         android:src="@drawable/logo" />
 
     <android.support.v7.widget.CardView
+        android:id="@+id/buttonHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/spacing_large"
         android:background="@color/colorWhite">
 
         <LinearLayout
@@ -29,6 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
                 android:textAlignment="viewStart"
                 app:hintAnimationEnabled="true">
 
@@ -36,6 +49,8 @@
                     android:id="@+id/nickname_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
                     android:hint="@string/nickname" />
             </android.support.design.widget.TextInputLayout>
 

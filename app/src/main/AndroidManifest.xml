@@ -30,6 +30,15 @@
                 android:value=".ui.main.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.setting.SettingActivity"
+            android:label="@string/setting"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
 

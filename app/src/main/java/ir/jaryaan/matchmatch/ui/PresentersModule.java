@@ -14,6 +14,8 @@ import ir.jaryaan.matchmatch.ui.launch.LaunchContract;
 import ir.jaryaan.matchmatch.ui.launch.LaunchPresenter;
 import ir.jaryaan.matchmatch.ui.main.MainContract;
 import ir.jaryaan.matchmatch.ui.main.MainPresenter;
+import ir.jaryaan.matchmatch.ui.setting.SettingContract;
+import ir.jaryaan.matchmatch.ui.setting.SettingPresenter;
 import ir.jaryaan.matchmatch.utils.scheduler.SchedulerProvider;
 
 /**
@@ -43,5 +45,10 @@ public class PresentersModule {
     @Provides
     public HomeContract.Presenter provideHomePresenter() {
         return new HomePresenter();
+    }
+
+    @Provides
+    public SettingContract.Presenter provideSettingPresenter() {
+        return new SettingPresenter();
     }
 }

@@ -1,18 +1,22 @@
-package ir.jaryaan.matchmatch.ui.home;
+package ir.jaryaan.matchmatch.ui.setting;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 /**
- * Created by ehsun on 5/17/2017.
+ * Created by ehsun on 5/18/2017.
  */
 
-public class HomePresenter implements HomeContract.Presenter {
+public class SettingPresenter implements SettingContract.Presenter {
 
-    HomeContract.View view;
+    SettingContract.View view;
+
+    public SettingPresenter() {
+
+    }
 
     @Override
-    public void onBindView(@NonNull HomeContract.View view) {
+    public void onBindView(@NonNull SettingContract.View view) {
         this.view = view;
     }
 
@@ -47,7 +51,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void onSettingClicked() {
-        view.showSettingScreen();
+    public void onSettingSaved() {
+
     }
 }
