@@ -1,5 +1,8 @@
 package ir.jaryaan.matchmatch.ui.setting;
 
+import android.support.annotation.NonNull;
+
+import ir.jaryaan.matchmatch.entities.Setting;
 import ir.jaryaan.matchmatch.ui.base.BasePresenterContract;
 import ir.jaryaan.matchmatch.ui.base.BaseViewContract;
 
@@ -9,10 +12,12 @@ import ir.jaryaan.matchmatch.ui.base.BaseViewContract;
 
 public interface SettingContract {
     interface View extends BaseViewContract {
-        void showCurrentSettings();
+        void showCurrentSettings(@NonNull Setting setting);
+
+        void finishView();
     }
 
     interface Presenter extends BasePresenterContract<View> {
-        void onSettingSaved();
+        void onSettingSaved(@NonNull String cardType);
     }
 }

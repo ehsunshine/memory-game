@@ -10,6 +10,7 @@ import ir.jaryaan.matchmatch.entities.CardImage;
 import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
+import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
 import ir.jaryaan.matchmatch.utils.scheduler.SchedulerProvider;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -25,6 +26,7 @@ import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
 
 public class BoardPresenter implements BoardContract.Presenter {
 
+    private SettingRepositoryContract settingRepository;
     private GameManagerContract gameManager;
     private BoardContract.View view;
     private ImageRepositoryContract imageRepository;
@@ -33,10 +35,12 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     public BoardPresenter(@NonNull ImageRepositoryContract imageRepository,
                           @NonNull GameManagerContract gameManager,
-                          @NonNull SchedulerProvider schedulerProvider) {
+                          @NonNull SchedulerProvider schedulerProvider,
+                          @NonNull SettingRepositoryContract settingRepository) {
         this.imageRepository = imageRepository;
         this.gameManager = gameManager;
         this.schedulerProvider = schedulerProvider;
+        this.settingRepository = settingRepository;
     }
 
     @Override
@@ -46,8 +50,11 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     @Override
     public void onViewInitialized() {
+        view.showNickname(settingRepository.getSetting().getNickname());
         view.showLoading();
-        Subscription subscription = imageRepository.getCardImages(10, "Cat", 4)
+        Subscription subscription = imageRepository.getCardImages(
+                settingRepository.getSetting().getDifficultyLevel(),
+                settingRepository.getSetting().getCardType(), 4)
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
                 .subscribe(cardImages -> {
@@ -91,6 +98,7 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     @Override
     public void onViewDestroyed() {
+        gameManager.stop();
         if (compositeSubscription != null && !compositeSubscription.isUnsubscribed()) {
             compositeSubscription.unsubscribe();
         }
@@ -104,17 +112,13 @@ public class BoardPresenter implements BoardContract.Presenter {
                 .subscribe(cardFlipStatus -> {
                     switch (cardFlipStatus.getStatus()) {
                         case CARD_STATUS_NOTHING:
-                            view.showErrorMessage("Nothing");
                             break;
                         case CARD_STATUS_WAITING_FOR_MATCH:
-                            view.showErrorMessage("Waiting");
                             break;
                         case CARD_STATUS_MATCHED:
-                            view.showErrorMessage("Matched");
                             view.winCards(cardFlipStatus.getFirstCard(), cardFlipStatus.getSecondCard());
                             break;
                         case CARD_STATUS_NOT_MATCHED: {
-                            view.showErrorMessage("Not Matched");
                             view.flipCardsBack(cardFlipStatus.getFirstCard(), cardFlipStatus.getSecondCard());
                             break;
                         }

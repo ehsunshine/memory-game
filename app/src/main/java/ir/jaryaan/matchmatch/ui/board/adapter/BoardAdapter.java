@@ -2,7 +2,6 @@ package ir.jaryaan.matchmatch.ui.board.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import ir.jaryaan.matchmatch.ui.board.viewholder.CardViewHolder;
 public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_CARD = 1;
-    private static final int TYPE_INVISIBLE = 2;
     private final int spanCount;
 
     private List<Card> cardList = new ArrayList<>();

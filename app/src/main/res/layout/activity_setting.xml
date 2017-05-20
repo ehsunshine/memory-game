@@ -8,6 +8,7 @@
     android:padding="@dimen/spacing_large">
 
     <RadioGroup
+        android:id="@+id/card_type_radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,7 +39,27 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:checked="false"
-            android:text="@string/human"
+            android:text="@string/people"
+            android:textSize="@dimen/text_size_normal" />
+
+        <RadioButton
+            android:id="@+id/alienRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:checked="false"
+            android:text="@string/fashion"
+            android:textSize="@dimen/text_size_normal" />
+
+        <RadioButton
+            android:id="@+id/monsterRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:checked="false"
+            android:text="@string/abstractpics"
             android:textSize="@dimen/text_size_normal" />
     </RadioGroup>
 
@@ -48,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"
         android:background="@color/colorAccent"
-        android:text="@string/insane"
+        android:text="@string/save"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_large" />
 </LinearLayout>

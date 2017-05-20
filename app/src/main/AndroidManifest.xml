@@ -24,10 +24,8 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.main.MainActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialTheme">
         </activity>
         <activity
             android:name=".ui.setting.SettingActivity"
@@ -40,7 +38,11 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.HomeActivity" />
+        </activity>
 
 
     </application>

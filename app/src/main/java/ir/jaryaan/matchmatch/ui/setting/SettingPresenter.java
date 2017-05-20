@@ -3,6 +3,8 @@ package ir.jaryaan.matchmatch.ui.setting;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
+
 /**
  * Created by ehsun on 5/18/2017.
  */
@@ -10,8 +12,10 @@ import android.support.annotation.NonNull;
 public class SettingPresenter implements SettingContract.Presenter {
 
     SettingContract.View view;
+    private SettingRepositoryContract settingRepository;
 
-    public SettingPresenter() {
+    public SettingPresenter(@NonNull SettingRepositoryContract settingRepository) {
+        this.settingRepository = settingRepository;
 
     }
 
@@ -22,7 +26,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 
     @Override
     public void onViewInitialized() {
-
+        view.showCurrentSettings(settingRepository.getSetting());
     }
 
     @Override
@@ -51,7 +55,10 @@ public class SettingPresenter implements SettingContract.Presenter {
     }
 
     @Override
-    public void onSettingSaved() {
+    public void onSettingSaved(@NonNull String cardType) {
 
+        settingRepository.setCardType(cardType);
+
+        view.finishView();
     }
 }

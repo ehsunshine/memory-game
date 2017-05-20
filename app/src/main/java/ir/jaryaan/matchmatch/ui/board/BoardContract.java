@@ -18,6 +18,8 @@ public interface BoardContract {
         void flipCardsBack(Card firstCard, Card secondCard);
 
         void winCards(Card firstCard, Card secondCard);
+
+        void showNickname(String nickname);
     }
 
     interface Presenter extends BasePresenterContract<BoardContract.View> {

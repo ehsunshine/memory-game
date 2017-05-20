@@ -22,7 +22,7 @@ import ir.jaryaan.matchmatch.utils.DateTimeDeserializer;
 
 @Module
 public class SourceModule {
-    private static final String SHARED_PREF_AVANG = "MATCH_PREFS";
+    private static final String SHARED_PREF_MATCH = "MATCH_PREFS";
 
     private Context context;
 
@@ -33,7 +33,7 @@ public class SourceModule {
     @Provides
     @Singleton
     public SharedPreferences provideSharedPreference() {
-        return context.getSharedPreferences(SHARED_PREF_AVANG, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(SHARED_PREF_MATCH, Context.MODE_PRIVATE);
     }
 
     @Provides

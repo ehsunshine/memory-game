@@ -76,6 +76,11 @@ public class BoardFragment extends BaseFragment implements
     }
 
     @Override
+    public void showNickname(String nickname) {
+        updateScreenTitle(nickname);
+    }
+
+    @Override
     protected void injectDependencies() {
         applicationComponent.inject(this);
         presenter.onBindView(this);

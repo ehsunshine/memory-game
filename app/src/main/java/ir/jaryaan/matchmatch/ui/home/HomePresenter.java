@@ -3,6 +3,9 @@ package ir.jaryaan.matchmatch.ui.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import ir.jaryaan.matchmatch.entities.Setting;
+import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
+
 /**
  * Created by ehsun on 5/17/2017.
  */
@@ -10,6 +13,11 @@ import android.support.annotation.NonNull;
 public class HomePresenter implements HomeContract.Presenter {
 
     HomeContract.View view;
+    private SettingRepositoryContract settingRepository;
+
+    public HomePresenter(@NonNull SettingRepositoryContract settingRepository) {
+        this.settingRepository = settingRepository;
+    }
 
     @Override
     public void onBindView(@NonNull HomeContract.View view) {
@@ -18,7 +26,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void onViewInitialized() {
-
+        view.showCurrentSetting(settingRepository.getSetting());
     }
 
     @Override
@@ -49,5 +57,12 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void onSettingClicked() {
         view.showSettingScreen();
+    }
+
+    @Override
+    public void onGameStarted(@NonNull String nickname, @Setting.DifficultyLevel int difficultyLevel) {
+        settingRepository.setNickname(nickname);
+        settingRepository.setDifficultyLevel(difficultyLevel);
+        view.showGameScreen();
     }
 }

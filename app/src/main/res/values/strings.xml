@@ -17,5 +17,8 @@
     <string name="nickname">Nickname</string>
     <string name="cat">Kitten</string>
     <string name="dog">Dog</string>
-    <string name="human">Human</string>
+    <string name="people">People</string>
+    <string name="save">Save</string>
+    <string name="fashion">Fashion</string>
+    <string name="abstractpics">Abstract</string>
 </resources>

@@ -123,7 +123,7 @@ public class GameManager implements GameManagerContract {
     @Override
     public void start() {
 
-        countDownTimer = new CountDownTimer(90000, 1000) {
+        countDownTimer = new CountDownTimer(120 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 Duration duration = new Duration(millisUntilFinished);
@@ -162,6 +162,12 @@ public class GameManager implements GameManagerContract {
             }
         }
         return collectedCards == cards.size();
+    }
+
+    @Override
+    public void stop() {
+        currentScore = 0;
+        countDownTimer.cancel();
     }
 
     private boolean matchCards(Card firstCard, Card secondCard) {

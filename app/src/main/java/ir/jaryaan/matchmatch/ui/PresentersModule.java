@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
+import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
 import ir.jaryaan.matchmatch.ui.board.BoardContract;
 import ir.jaryaan.matchmatch.ui.board.BoardPresenter;
 import ir.jaryaan.matchmatch.ui.home.HomeContract;
@@ -38,17 +39,18 @@ public class PresentersModule {
     @Provides
     public BoardContract.Presenter provideBoardPresenter(@NonNull ImageRepositoryContract imageRepository,
                                                          @NonNull GameManagerContract gameManager,
-                                                         @NonNull SchedulerProvider schedulerProvider) {
-        return new BoardPresenter(imageRepository, gameManager, schedulerProvider);
+                                                         @NonNull SchedulerProvider schedulerProvider,
+                                                         @NonNull SettingRepositoryContract settingRepository) {
+        return new BoardPresenter(imageRepository, gameManager, schedulerProvider, settingRepository);
     }
 
     @Provides
-    public HomeContract.Presenter provideHomePresenter() {
-        return new HomePresenter();
+    public HomeContract.Presenter provideHomePresenter(@NonNull SettingRepositoryContract settingRepository) {
+        return new HomePresenter(settingRepository);
     }
 
     @Provides
-    public SettingContract.Presenter provideSettingPresenter() {
-        return new SettingPresenter();
+    public SettingContract.Presenter provideSettingPresenter(@NonNull SettingRepositoryContract settingRepository) {
+        return new SettingPresenter(settingRepository);
     }
 }

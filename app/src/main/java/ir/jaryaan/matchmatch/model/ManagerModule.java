@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -12,6 +14,8 @@ import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepository;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
+import ir.jaryaan.matchmatch.model.repository.SettingRepository;
+import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
 import ir.jaryaan.matchmatch.network.ApiService;
 
 /**
@@ -35,5 +39,12 @@ public class ManagerModule {
     @Singleton
     public GameManagerContract provideGameManager(@NonNull SharedPreferences sharedPreferences) {
         return new GameManager(sharedPreferences);
+    }
+
+    @Provides
+    @Singleton
+    public SettingRepositoryContract provideSettingRepository(@NonNull SharedPreferences sharedPreferences,
+                                                              @NonNull Gson gson) {
+        return new SettingRepository(sharedPreferences, gson);
     }
 }
