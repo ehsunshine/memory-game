@@ -4,11 +4,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.List;
 
@@ -18,9 +26,14 @@ import butterknife.BindView;
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.model.manager.GameManager;
+import ir.jaryaan.matchmatch.model.manager.GameManager.GameStatus;
 import ir.jaryaan.matchmatch.ui.base.BaseFragment;
 import ir.jaryaan.matchmatch.ui.board.adapter.BoardAdapter;
 import ir.jaryaan.matchmatch.ui.main.MainActivity;
+import ir.jaryaan.matchmatch.utils.ConvertUtil;
+
+import static ir.jaryaan.matchmatch.model.manager.GameManager.GAME_STATUS_FINISHED;
+import static ir.jaryaan.matchmatch.model.manager.GameManager.GAME_STATUS_OVER;
 
 /**
  * Created by ehsun on 5/12/2017.
@@ -39,8 +52,10 @@ public class BoardFragment extends BaseFragment implements
     RecyclerView recyclerView;
     @BindView(R.id.loading_container)
     View loadingView;
+
     private Handler handler = new Handler();
     private BoardAdapter adapter;
+    private AlertDialog gameOverDialog;
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -81,6 +96,15 @@ public class BoardFragment extends BaseFragment implements
     }
 
     @Override
+    public void showCards() {
+
+        adapter = new BoardAdapter(this, SPAN_COUNT);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT));
+        recyclerView.setAdapter(adapter);
+        presenter.onGameStarted();
+    }
+
+    @Override
     protected void injectDependencies() {
         applicationComponent.inject(this);
         presenter.onBindView(this);
@@ -91,9 +115,7 @@ public class BoardFragment extends BaseFragment implements
     protected void initViews() {
 
         updateScreenTitle(getString(R.string.app_name));
-        adapter = new BoardAdapter(this, SPAN_COUNT);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT));
-        recyclerView.setAdapter(adapter);
+
         presenter.onViewInitialized();
 
     }
@@ -111,18 +133,55 @@ public class BoardFragment extends BaseFragment implements
 
     @Override
     public void onGameInProgress(@NonNull String remainingTime) {
-        ((MainActivity) getActivity()).setTimerValue(remainingTime);
+        ((MainActivity) getActivity()).setTimerValue(getString(R.string.timer, remainingTime));
 
     }
 
-    @Override
-    public void onGameOver() {
-        showErrorMessage("Game Over!!!!!!!");
+    private void showGameOverDialog(@NonNull @GameStatus String gameStatus, int score, long remainedTime) {
+        if (gameOverDialog == null) {
+            this.gameOverDialog = new AlertDialog.Builder(getContext())
+                    .setTitle(gameStatus)
+                    .setView(R.layout.dialog_game_over)
+                    .create();
+
+
+            this.gameOverDialog.setOnShowListener(dialogInterface -> {
+                TextView scoreTextView = (TextView) this.gameOverDialog.findViewById(R.id.score_text_view);
+                TextView remainedTimeTextView = (TextView) this.gameOverDialog.findViewById(R.id.remaining_time_text_view);
+                scoreTextView.setText(getString(R.string.score, score));
+
+                remainedTimeTextView.setText(getString(R.string.timer,
+                        ConvertUtil.convertMillisecondToMinutesAndSecond(remainedTime)));
+
+                Button retryButton = (Button) this.gameOverDialog.findViewById(R.id.retry_button);
+                Button submitButton = (Button) this.gameOverDialog.findViewById(R.id.submit_button);
+                retryButton.setOnClickListener(view -> {
+
+                    presenter.onGameRetried();
+                });
+                submitButton.setOnClickListener(view -> {
+                    presenter.onScoreSubmitted();
+                });
+            });
+        }
+        this.gameOverDialog.show();
     }
 
     @Override
-    public void onGameCompleted() {
-        showErrorMessage("Finished!!!!!!!");
+    public void hideGameOverDialog() {
+        if (this.gameOverDialog != null) {
+            this.gameOverDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onGameOver(int score, long remainedTime) {
+        showGameOverDialog(GAME_STATUS_OVER, score, remainedTime);
+    }
+
+    @Override
+    public void onGameCompleted(int score, long remainedTime) {
+        showGameOverDialog(GAME_STATUS_FINISHED, score, remainedTime);
     }
 
     @Override

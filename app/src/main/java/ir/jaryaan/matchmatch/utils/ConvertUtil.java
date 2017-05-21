@@ -1,5 +1,10 @@
 package ir.jaryaan.matchmatch.utils;
 
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 /**
  * Created by ehsun on 5/17/2017.
  */
@@ -39,6 +44,19 @@ public class ConvertUtil {
             return (String) obj;
         }
         return defaultValue;
+    }
+
+    public static String convertMillisecondToMinutesAndSecond(long milliseconds)
+    {
+        Duration duration = new Duration(milliseconds);
+        Period period = duration.toPeriod();
+        PeriodFormatter minutesAndSeconds = new PeriodFormatterBuilder()
+                .printZeroAlways()
+                .appendMinutes()
+                .appendSeparator(":")
+                .appendSeconds()
+                .toFormatter();
+        return minutesAndSeconds.print(period);
     }
 
 }

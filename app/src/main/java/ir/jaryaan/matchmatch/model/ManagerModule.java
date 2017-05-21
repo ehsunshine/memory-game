@@ -37,8 +37,8 @@ public class ManagerModule {
 
     @Provides
     @Singleton
-    public GameManagerContract provideGameManager(@NonNull SharedPreferences sharedPreferences) {
-        return new GameManager(sharedPreferences);
+    public GameManagerContract provideGameManager() {
+        return new GameManager();
     }
 
     @Provides

@@ -43,6 +43,6 @@ ext {
     testRunnerVersion = '0.5'
     jodatimeVersion = '2.9.4.1'
     playServiceVersion = '10.2.4'
-    firebaseVersion = '10.2.4'
+    googleFirebaseVersion = '10.2.4'
 
 }

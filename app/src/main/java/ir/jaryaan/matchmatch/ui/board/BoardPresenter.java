@@ -50,7 +50,13 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     @Override
     public void onViewInitialized() {
+        view.showCards();
         view.showNickname(settingRepository.getSetting().getNickname());
+    }
+
+    @Override
+    public void onGameStarted() {
+
         view.showLoading();
         Subscription subscription = imageRepository.getCardImages(
                 settingRepository.getSetting().getDifficultyLevel(),
@@ -126,5 +132,19 @@ public class BoardPresenter implements BoardContract.Presenter {
                 }, throwable -> view.showErrorMessage(throwable));
 
         compositeSubscription.add(subscription);
+    }
+
+
+
+    @Override
+    public void onScoreSubmitted() {
+
+    }
+
+    @Override
+    public void onGameRetried() {
+        gameManager.stop();
+        view.hideGameOverDialog();
+        view.showCards();
     }
 }

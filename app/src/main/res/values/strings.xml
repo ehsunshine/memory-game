@@ -8,7 +8,7 @@
     <string name="about">About</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <string name="timer">00:00</string>
+    <string name="timer">Remaining Time: %s</string>
     <string name="score">Score: %d</string>
     <string name="easy">Easy</string>
     <string name="insane">Insane</string>
@@ -21,4 +21,7 @@
     <string name="save">Save</string>
     <string name="fashion">Fashion</string>
     <string name="abstractpics">Abstract</string>
+    <string name="get_ready">Get Ready\\n%s</string>
+    <string name="submit">Submit</string>
+    <string name="retry">Try Againg</string>
 </resources>
