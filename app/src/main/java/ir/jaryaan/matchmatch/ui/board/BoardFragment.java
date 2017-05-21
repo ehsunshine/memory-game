@@ -13,11 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.joda.time.Duration;
-import org.joda.time.Period;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,6 +47,7 @@ public class BoardFragment extends BaseFragment implements
     RecyclerView recyclerView;
     @BindView(R.id.loading_container)
     View loadingView;
+
 
     private Handler handler = new Handler();
     private BoardAdapter adapter;
@@ -138,17 +134,18 @@ public class BoardFragment extends BaseFragment implements
     }
 
     private void showGameOverDialog(@NonNull @GameStatus String gameStatus, int score, long remainedTime) {
+
         if (gameOverDialog == null) {
             this.gameOverDialog = new AlertDialog.Builder(getContext())
                     .setTitle(gameStatus)
-                    .setView(R.layout.dialog_game_over)
+                    .setView(R.layout.view_game_over)
                     .create();
 
 
             this.gameOverDialog.setOnShowListener(dialogInterface -> {
                 TextView scoreTextView = (TextView) this.gameOverDialog.findViewById(R.id.score_text_view);
                 TextView remainedTimeTextView = (TextView) this.gameOverDialog.findViewById(R.id.remaining_time_text_view);
-                scoreTextView.setText(getString(R.string.score, score));
+                scoreTextView.setText(String.valueOf(score));
 
                 remainedTimeTextView.setText(getString(R.string.timer,
                         ConvertUtil.convertMillisecondToMinutesAndSecond(remainedTime)));

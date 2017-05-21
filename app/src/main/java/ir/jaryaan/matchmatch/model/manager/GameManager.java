@@ -1,14 +1,8 @@
 package ir.jaryaan.matchmatch.model.manager;
 
-import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
-
-import org.joda.time.Duration;
-import org.joda.time.Period;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.lang.annotation.Retention;
 import java.util.ArrayList;
@@ -42,7 +36,7 @@ public class GameManager implements GameManagerContract {
     private boolean firstCardShouldBeCleared;
     private GameEventListener gameEventListener;
     private CountDownTimer countDownTimer;
-    private int currentScore = 0;
+    private int currentScore;
     private long currentTime;
 
     public GameManager() {
@@ -90,7 +84,8 @@ public class GameManager implements GameManagerContract {
             } else {
 
                 if (matchCards(firstFlippedCard, card)) {
-                    gameEventListener.onScoreChanged(++currentScore);
+                    currentScore++;
+                    gameEventListener.onScoreChanged(currentScore);
                     if (isGameFinished()) {
                         countDownTimer.cancel();
                         gameEventListener.onGameCompleted(currentScore, currentTime);
@@ -130,8 +125,8 @@ public class GameManager implements GameManagerContract {
     @Override
     public void start() {
         currentScore = 0;
-
-        countDownTimer = new CountDownTimer(15 * 1000, 1000) {
+        gameEventListener.onScoreChanged(currentScore);
+        countDownTimer = new CountDownTimer(30 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 currentTime = millisUntilFinished;
