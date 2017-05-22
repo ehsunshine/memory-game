@@ -15,7 +15,6 @@ public interface FirebaseScoreboardGateway {
 
     @NonNull
     Observable<ScoreboardLevel> addScore(@NonNull String scoreID,
-                                         @NonNull String levelName,
                                          @NonNull ScoreboardLevel scoreboardLevel);
 }
 

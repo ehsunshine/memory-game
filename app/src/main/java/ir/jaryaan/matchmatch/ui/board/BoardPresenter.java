@@ -3,12 +3,16 @@ package ir.jaryaan.matchmatch.ui.board;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import ir.jaryaan.matchmatch.entities.ScoreboardLevel;
 import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
+import ir.jaryaan.matchmatch.model.manager.ScoreManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
 import ir.jaryaan.matchmatch.utils.scheduler.SchedulerProvider;
@@ -26,21 +30,25 @@ import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
 
 public class BoardPresenter implements BoardContract.Presenter {
 
+    private ScoreManagerContract scoreManager;
     private SettingRepositoryContract settingRepository;
     private GameManagerContract gameManager;
     private BoardContract.View view;
     private ImageRepositoryContract imageRepository;
     private SchedulerProvider schedulerProvider;
     private CompositeSubscription compositeSubscription = new CompositeSubscription();
+    private boolean isSubmitting;
 
     public BoardPresenter(@NonNull ImageRepositoryContract imageRepository,
                           @NonNull GameManagerContract gameManager,
                           @NonNull SchedulerProvider schedulerProvider,
-                          @NonNull SettingRepositoryContract settingRepository) {
+                          @NonNull SettingRepositoryContract settingRepository,
+                          @NonNull ScoreManagerContract scoreManager) {
         this.imageRepository = imageRepository;
         this.gameManager = gameManager;
         this.schedulerProvider = schedulerProvider;
         this.settingRepository = settingRepository;
+        this.scoreManager = scoreManager;
     }
 
     @Override
@@ -50,6 +58,7 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     @Override
     public void onViewInitialized() {
+        isSubmitting = false;
         view.showCards();
         view.showNickname(settingRepository.getSetting().getNickname());
     }
@@ -135,9 +144,23 @@ public class BoardPresenter implements BoardContract.Presenter {
     }
 
 
-
     @Override
-    public void onScoreSubmitted() {
+    public void onScoreSubmitted(@NonNull ScoreboardLevel scoreboardLevel) {
+        if (!isSubmitting) {
+            isSubmitting = true;
+            scoreboardLevel.setSubmitTime(DateTime.now().getMillis());
+            Subscription subscription = scoreManager.sendScore(view.getScoreId(), scoreboardLevel)
+                    .subscribeOn(schedulerProvider.getComputationScheduler())
+                    .observeOn(schedulerProvider.getMainScheduler())
+                    .subscribe(score -> {
+                        view.hideGameOverDialog();
+                        view.showHomeScreen();
+                    }, throwable -> {
+                        view.hideLoading();
+                        view.showErrorMessage(throwable);
+                    }, () -> isSubmitting = false);
+            compositeSubscription.add(subscription);
+        }
 
     }
 

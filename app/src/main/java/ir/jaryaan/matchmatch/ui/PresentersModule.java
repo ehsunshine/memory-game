@@ -4,7 +4,10 @@ import android.support.annotation.NonNull;
 
 import dagger.Module;
 import dagger.Provides;
+import ir.jaryaan.matchmatch.model.gateways.online.FirebaseOnlineGateway;
+import ir.jaryaan.matchmatch.model.gateways.user.FirebaseUserGateway;
 import ir.jaryaan.matchmatch.model.manager.GameManagerContract;
+import ir.jaryaan.matchmatch.model.manager.ScoreManagerContract;
 import ir.jaryaan.matchmatch.model.repository.ImageRepositoryContract;
 import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
 import ir.jaryaan.matchmatch.ui.board.BoardContract;
@@ -40,13 +43,17 @@ public class PresentersModule {
     public BoardContract.Presenter provideBoardPresenter(@NonNull ImageRepositoryContract imageRepository,
                                                          @NonNull GameManagerContract gameManager,
                                                          @NonNull SchedulerProvider schedulerProvider,
-                                                         @NonNull SettingRepositoryContract settingRepository) {
-        return new BoardPresenter(imageRepository, gameManager, schedulerProvider, settingRepository);
+                                                         @NonNull SettingRepositoryContract settingRepository,
+                                                         @NonNull ScoreManagerContract scoreManager) {
+        return new BoardPresenter(imageRepository, gameManager, schedulerProvider, settingRepository, scoreManager);
     }
 
     @Provides
-    public HomeContract.Presenter provideHomePresenter(@NonNull SettingRepositoryContract settingRepository) {
-        return new HomePresenter(settingRepository);
+    public HomeContract.Presenter provideHomePresenter(@NonNull SettingRepositoryContract settingRepository,
+                                                       @NonNull FirebaseOnlineGateway firebaseOnlineGateway,
+                                                       @NonNull FirebaseUserGateway firebaseUserGateway,
+                                                       @NonNull SchedulerProvider schedulerProvider) {
+        return new HomePresenter(settingRepository, firebaseOnlineGateway, firebaseUserGateway, schedulerProvider);
     }
 
     @Provides

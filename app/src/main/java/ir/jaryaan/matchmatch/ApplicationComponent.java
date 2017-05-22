@@ -1,5 +1,7 @@
 package ir.jaryaan.matchmatch;
 
+import android.content.SharedPreferences;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -29,6 +31,8 @@ import ir.jaryaan.matchmatch.utils.UtilsModule;
         UtilsModule.class
 })
 public interface ApplicationComponent {
+
+    SharedPreferences getSharedPreferences();
 
     void inject(LaunchActivity activity);
 

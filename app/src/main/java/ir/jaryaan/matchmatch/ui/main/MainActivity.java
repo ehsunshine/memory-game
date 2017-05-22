@@ -27,6 +27,8 @@ import ir.jaryaan.matchmatch.ui.board.BoardFragment;
 public class MainActivity extends BaseActivity implements
         MainContract.View, NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String EXTRA_SCORE_ID = "SCORE_ID";
+
     @Inject
     MainContract.Presenter presenter;
     @BindView(R.id.toolbar)
@@ -41,15 +43,19 @@ public class MainActivity extends BaseActivity implements
     TextView timerTextView;
     @BindView(R.id.scoreTextView)
     TextView scoreTextView;
+    private String scoreID;
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+    public static Intent newIntent(Context context, @NonNull String scoreID) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_SCORE_ID, scoreID);
+        return intent;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
+        scoreID = getIntent().getStringExtra(EXTRA_SCORE_ID);
         setContentView(R.layout.activity_main);
     }
 
@@ -83,7 +89,7 @@ public class MainActivity extends BaseActivity implements
     public void showBoardScreen() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, BoardFragment.newInstance())
+                .replace(R.id.fragment_container, BoardFragment.newInstance(scoreID))
                 .commit();
 
     }

@@ -1,6 +1,5 @@
 package ir.jaryaan.matchmatch.model.manager;
 
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 
@@ -12,14 +11,21 @@ import java.util.Random;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.CardImage;
+import ir.jaryaan.matchmatch.entities.ScoreboardLevel;
 import ir.jaryaan.matchmatch.model.entities.CardFlipStatus;
+import ir.jaryaan.matchmatch.model.repository.SettingRepositoryContract;
 import ir.jaryaan.matchmatch.utils.ConvertUtil;
+import ir.jaryaan.matchmatch.utils.CountDown;
 import rx.Observable;
 
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_MATCHED;
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOTHING;
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOT_MATCHED;
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
+import static ir.jaryaan.matchmatch.entities.Setting.DIFFICULTY_LEVEL_EASY;
+import static ir.jaryaan.matchmatch.entities.Setting.DIFFICULTY_LEVEL_HARD;
+import static ir.jaryaan.matchmatch.entities.Setting.DIFFICULTY_LEVEL_INSANE;
+import static ir.jaryaan.matchmatch.entities.Setting.DIFFICULTY_LEVEL_NORMAL;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
@@ -32,19 +38,40 @@ public class GameManager implements GameManagerContract {
     public static final String GAME_STATUS_OVER = "Game Over";
 
     private static Card firstFlippedCard;
+    private SettingRepositoryContract settingRepository;
     private List<Card> cards;
     private boolean firstCardShouldBeCleared;
     private GameEventListener gameEventListener;
-    private CountDownTimer countDownTimer;
-    private int currentScore;
-    private long currentTime;
+    //private CountDownTimer countDownTimer;
+    private CountDown countDown;
+    private ScoreboardLevel scoreboardLevel;
 
-    public GameManager() {
+    public GameManager(@NonNull SettingRepositoryContract settingRepository) {
+        this.settingRepository = settingRepository;
     }
 
     @Override
     public void initialGame(@NonNull List<CardImage> cardImages, @NonNull GameEventListener gameEventListener) {
         this.gameEventListener = gameEventListener;
+
+        countDown = new CountDown(120, 1000);
+
+        scoreboardLevel = new ScoreboardLevel();
+        switch (settingRepository.getSetting().getDifficultyLevel()) {
+            case DIFFICULTY_LEVEL_EASY:
+                scoreboardLevel.setLevel("Easy");
+                break;
+            case DIFFICULTY_LEVEL_NORMAL:
+                scoreboardLevel.setLevel("Normal");
+                break;
+            case DIFFICULTY_LEVEL_HARD:
+                scoreboardLevel.setLevel("Hard");
+                break;
+            case DIFFICULTY_LEVEL_INSANE:
+                scoreboardLevel.setLevel("Insane");
+                break;
+        }
+        scoreboardLevel.setNickname(settingRepository.getSetting().getNickname());
 
         List<Card> cardList = new ArrayList<>();
         for (CardImage image : cardImages) {
@@ -84,11 +111,11 @@ public class GameManager implements GameManagerContract {
             } else {
 
                 if (matchCards(firstFlippedCard, card)) {
-                    currentScore++;
-                    gameEventListener.onScoreChanged(currentScore);
+                    scoreboardLevel.increaseScore();
+                    gameEventListener.onScoreChanged(scoreboardLevel.getScore());
                     if (isGameFinished()) {
-                        countDownTimer.cancel();
-                        gameEventListener.onGameCompleted(currentScore, currentTime);
+                        countDown.stop();
+                        gameEventListener.onGameCompleted(scoreboardLevel);
                     }
                     return Observable.just(CardFlipStatus
                             .builder()
@@ -124,30 +151,33 @@ public class GameManager implements GameManagerContract {
 
     @Override
     public void start() {
-        currentScore = 0;
-        gameEventListener.onScoreChanged(currentScore);
-        countDownTimer = new CountDownTimer(30 * 1000, 1000) {
+        scoreboardLevel.setScore(0);
+        gameEventListener.onScoreChanged(scoreboardLevel.getScore());
 
-            public void onTick(long millisUntilFinished) {
-                currentTime = millisUntilFinished;
+        countDown.start(new CountDown.CountDownTimerListener() {
+            @Override
+            public void onTick(long milliseconds) {
+                scoreboardLevel.setTimeRemaining(milliseconds);
 
                 gameEventListener.onGameInProgress(
-                        ConvertUtil.convertMillisecondToMinutesAndSecond(millisUntilFinished));
+                        ConvertUtil.convertMillisecondToMinutesAndSecond(milliseconds));
             }
 
-            public void onFinish() {
+            @Override
+            public void onFinished() {
                 gameOver();
             }
-        }.start();
+        });
+
     }
 
     @Override
     public void gameOver() {
 
         if (!isGameFinished()) {
-            gameEventListener.onGameOver(currentScore, currentTime);
+            gameEventListener.onGameOver(scoreboardLevel);
         } else {
-            gameEventListener.onGameCompleted(currentScore, currentTime);
+            gameEventListener.onGameCompleted(scoreboardLevel);
         }
     }
 
@@ -164,7 +194,7 @@ public class GameManager implements GameManagerContract {
 
     @Override
     public void stop() {
-        countDownTimer.cancel();
+        countDown.stop();
     }
 
     private boolean matchCards(Card firstCard, Card secondCard) {
@@ -190,10 +220,10 @@ public class GameManager implements GameManagerContract {
     public interface GameEventListener {
         void onGameInProgress(@NonNull String remainingTime);
 
-        void onGameOver(int score, long remainedTime);
+        void onGameOver(@NonNull ScoreboardLevel scoreboardLevel);
 
-        void onGameCompleted(int score, long remainedTime);
+        void onGameCompleted(@NonNull ScoreboardLevel scoreboardLevel);
 
-        void onScoreChanged(int score);
+        void onScoreChanged(long score);
     }
 }

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
-import ir.jaryaan.matchmatch.model.manager.GameManager;
+import ir.jaryaan.matchmatch.entities.ScoreboardLevel;
 import ir.jaryaan.matchmatch.ui.base.BasePresenterContract;
 import ir.jaryaan.matchmatch.ui.base.BaseViewContract;
 
@@ -27,6 +27,11 @@ public interface BoardContract {
         void showCards();
 
         void hideGameOverDialog();
+
+        @NonNull
+        String getScoreId();
+
+        void showHomeScreen();
     }
 
     interface Presenter extends BasePresenterContract<BoardContract.View> {
@@ -35,7 +40,7 @@ public interface BoardContract {
 
         void onGameStarted();
 
-        void onScoreSubmitted();
+        void onScoreSubmitted(@NonNull ScoreboardLevel scoreboardLevel);
 
         void onGameRetried();
     }

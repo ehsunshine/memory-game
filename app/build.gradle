@@ -102,3 +102,4 @@ dependencies {
     compile "com.google.firebase:firebase-auth:$rootProject.ext.googleFirebaseVersion"
 
 }
+apply plugin: 'com.google.gms.google-services'

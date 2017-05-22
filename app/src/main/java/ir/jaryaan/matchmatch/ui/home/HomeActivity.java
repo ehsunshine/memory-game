@@ -3,6 +3,7 @@ package ir.jaryaan.matchmatch.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import ir.jaryaan.matchmatch.MatchMatchApplication;
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.entities.Setting;
 import ir.jaryaan.matchmatch.entities.Setting.DifficultyLevel;
@@ -35,6 +37,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     public static Intent newIntent(Context context) {
         return new Intent(context, HomeActivity.class);
     }
+
+    @NonNull
+    @Override
+    public String getInstanceId() {
+        return MatchMatchApplication.getInstance().getInstanceId();
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,8 +88,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     @Override
-    public void showGameScreen() {
-        startActivity(MainActivity.newIntent(this));
+    public void showGameScreen(@NonNull String scoreID) {
+        startActivity(MainActivity.newIntent(this, scoreID));
     }
 
     @Override

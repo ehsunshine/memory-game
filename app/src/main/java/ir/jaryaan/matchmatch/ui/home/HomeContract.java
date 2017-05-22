@@ -12,7 +12,10 @@ import ir.jaryaan.matchmatch.ui.base.BaseViewContract;
 
 public interface HomeContract {
     interface View extends BaseViewContract {
-        void showGameScreen();
+        @NonNull
+        String getInstanceId();
+
+        void showGameScreen(@NonNull String scoreID);
 
         void showSettingScreen();
 

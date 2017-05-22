@@ -7,17 +7,20 @@ import java.util.Map;
 
 import ir.jaryaan.matchmatch.model.gateways.FirebaseStructure;
 import ir.jaryaan.matchmatch.utils.ConvertUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by ehsun on 5/17/2017.
  */
-
+@Getter
+@Setter
 public class ScoreboardLevel {
 
     private String level;
     private String nickname;
     private int score;
-    private int timeRemaining;
+    private long timeRemaining;
     private long submitTime;
 
     public static ScoreboardLevel fromMap(Map<String, Object> map) {
@@ -25,7 +28,7 @@ public class ScoreboardLevel {
         scoreboardLevel.level = (String) map.get(FirebaseStructure.Scoreboards.LEVEL);
         scoreboardLevel.nickname = ConvertUtil.castString(map.get(FirebaseStructure.Scoreboards.Scores.NICKNAME), "");
         scoreboardLevel.submitTime = ConvertUtil.castLong(map.get(FirebaseStructure.Scoreboards.Scores.SUBMIT_DATETIME), 0);
-        scoreboardLevel.timeRemaining = ConvertUtil.castInt(map.get(FirebaseStructure.Scoreboards.Scores.REMAINING_TIME), 0);
+        scoreboardLevel.timeRemaining = ConvertUtil.castLong(map.get(FirebaseStructure.Scoreboards.Scores.REMAINING_TIME), 0);
         scoreboardLevel.score = ConvertUtil.castInt(map.get(FirebaseStructure.Scoreboards.Scores.SCORE), 0);
         return scoreboardLevel;
     }
@@ -40,4 +43,7 @@ public class ScoreboardLevel {
         return map;
     }
 
+    public void increaseScore() {
+        score++;
+    }
 }

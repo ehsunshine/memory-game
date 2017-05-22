@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,6 +17,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ir.jaryaan.matchmatch.BuildConfig;
 import ir.jaryaan.matchmatch.utils.DateTimeDeserializer;
 
 /**
@@ -43,6 +47,21 @@ public class SourceModule {
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(DateTime.class, new DateTimeDeserializer())
                 .create();
+    }
+
+    @Provides
+    @Singleton
+    public FirebaseDatabase provideFirebaseDatabase() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.setPersistenceEnabled(false);
+        firebaseDatabase.setLogLevel(BuildConfig.DEBUG ? Logger.Level.DEBUG : Logger.Level.NONE);
+        return firebaseDatabase;
+    }
+
+    @Provides
+    @Singleton
+    public FirebaseAuth provideFirebaseAuth() {
+        return FirebaseAuth.getInstance();
     }
 
 }

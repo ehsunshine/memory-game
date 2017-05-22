@@ -75,14 +75,13 @@ public class DefaultFirebaseScoreboardGateway
     @NonNull
     @Override
     public Observable<ScoreboardLevel> addScore(@NonNull String scoreID,
-                                                @NonNull String levelName,
                                                 @NonNull ScoreboardLevel scoreboardLevel) {
         return Observable.create(subscriber -> {
             DatabaseReference messageRef = firebaseDatabase.getReference()
                     .child(FirebaseStructure.SCOREBOARD)
-                    .child(levelName)
-                    .child(scoreID)
+                    .child(scoreboardLevel.getLevel())
                     .child(FirebaseStructure.Scoreboards.SCORE)
+                    .child(scoreID)
                     .push();
 
             messageRef.setValue(scoreboardLevel.toMap(), (databaseError, databaseReference) -> {

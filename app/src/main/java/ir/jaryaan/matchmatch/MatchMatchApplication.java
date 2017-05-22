@@ -4,11 +4,15 @@ import android.app.Application;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import java.util.UUID;
+
 import ir.jaryaan.matchmatch.model.ManagerModule;
 import ir.jaryaan.matchmatch.model.gateways.GatewaysModule;
+import ir.jaryaan.matchmatch.model.source.SharedPrefKeys;
 import ir.jaryaan.matchmatch.model.source.SourceModule;
 import ir.jaryaan.matchmatch.network.NetworkModule;
 import ir.jaryaan.matchmatch.ui.PresentersModule;
+import ir.jaryaan.matchmatch.utils.SharedPreferenceUtils;
 import ir.jaryaan.matchmatch.utils.UtilsModule;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -47,6 +51,16 @@ public class MatchMatchApplication extends Application {
                 .build()
         );
     }
+
+    public String getInstanceId() {
+        String instanceId = SharedPreferenceUtils.getString(applicationComponent.getSharedPreferences(), SharedPrefKeys.INSTANCE_ID, null);
+        if (instanceId == null) {
+            instanceId = UUID.randomUUID().toString();
+            SharedPreferenceUtils.setString(applicationComponent.getSharedPreferences(), SharedPrefKeys.INSTANCE_ID, instanceId);
+        }
+        return instanceId;
+    }
+
 
     public ApplicationComponent getApplicationComponent() {
         return applicationComponent;
