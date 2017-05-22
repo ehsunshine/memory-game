@@ -29,8 +29,7 @@ public class MainActivity extends BaseActivity implements
 
     public static final String EXTRA_SCORE_ID = "SCORE_ID";
 
-    @Inject
-    MainContract.Presenter presenter;
+    @Inject MainContract.Presenter presenter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -94,8 +93,7 @@ public class MainActivity extends BaseActivity implements
 
     }
 
-    public void setTimerValue(String timerValue)
-    {
+    public void setTimerValue(String timerValue) {
         timerTextView.setText(timerValue);
     }
 

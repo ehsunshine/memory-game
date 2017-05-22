@@ -14,6 +14,7 @@ import ir.jaryaan.matchmatch.ui.board.BoardFragment;
 import ir.jaryaan.matchmatch.ui.home.HomeActivity;
 import ir.jaryaan.matchmatch.ui.launch.LaunchActivity;
 import ir.jaryaan.matchmatch.ui.main.MainActivity;
+import ir.jaryaan.matchmatch.ui.scoreboard.ScoreboardActivity;
 import ir.jaryaan.matchmatch.ui.setting.SettingActivity;
 import ir.jaryaan.matchmatch.utils.UtilsModule;
 
@@ -43,4 +44,6 @@ public interface ApplicationComponent {
     void inject(BoardFragment fragment);
 
     void inject(SettingActivity settingActivity);
+
+    void inject(ScoreboardActivity scoreboardActivity);
 }

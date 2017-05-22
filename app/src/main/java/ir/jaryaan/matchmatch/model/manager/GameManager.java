@@ -42,7 +42,6 @@ public class GameManager implements GameManagerContract {
     private List<Card> cards;
     private boolean firstCardShouldBeCleared;
     private GameEventListener gameEventListener;
-    //private CountDownTimer countDownTimer;
     private CountDown countDown;
     private ScoreboardLevel scoreboardLevel;
 
