@@ -65,7 +65,6 @@ public class BoardPresenter implements BoardContract.Presenter {
 
     @Override
     public void onGameStarted() {
-
         view.showLoading();
         Subscription subscription = imageRepository.getCardImages(
                 settingRepository.getSetting().getDifficultyLevel(),
@@ -142,7 +141,6 @@ public class BoardPresenter implements BoardContract.Presenter {
 
         compositeSubscription.add(subscription);
     }
-
 
     @Override
     public void onScoreSubmitted(@NonNull ScoreboardLevel scoreboardLevel) {

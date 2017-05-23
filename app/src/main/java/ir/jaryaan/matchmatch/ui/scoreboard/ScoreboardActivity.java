@@ -44,6 +44,12 @@ public class ScoreboardActivity extends BaseActivity implements
         return intent;
     }
 
+    @NonNull
+    @Override
+    public String getScoreId() {
+        return scoreID;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

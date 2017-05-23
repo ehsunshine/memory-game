@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import ir.jaryaan.matchmatch.ui.leaderboard.LeaderboardFragment;
+
 /**
  * Created by ehsun on 5/23/2017.
  */

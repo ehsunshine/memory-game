@@ -13,6 +13,7 @@ import ir.jaryaan.matchmatch.ui.PresentersModule;
 import ir.jaryaan.matchmatch.ui.board.BoardFragment;
 import ir.jaryaan.matchmatch.ui.home.HomeActivity;
 import ir.jaryaan.matchmatch.ui.launch.LaunchActivity;
+import ir.jaryaan.matchmatch.ui.leaderboard.LeaderboardFragment;
 import ir.jaryaan.matchmatch.ui.main.MainActivity;
 import ir.jaryaan.matchmatch.ui.scoreboard.ScoreboardActivity;
 import ir.jaryaan.matchmatch.ui.setting.SettingActivity;
@@ -46,4 +47,6 @@ public interface ApplicationComponent {
     void inject(SettingActivity settingActivity);
 
     void inject(ScoreboardActivity scoreboardActivity);
+
+    void inject(LeaderboardFragment leaderboardFragment);
 }
