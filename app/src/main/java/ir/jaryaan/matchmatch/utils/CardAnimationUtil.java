@@ -21,7 +21,7 @@ public class CardAnimationUtil {
     private int targetX;
     private int targetY;
     private float targetScale;
-
+    private long lastClickTime = 0;
 
     public void flipCard() {
         if (card.isFaceDown()) {
@@ -33,10 +33,10 @@ public class CardAnimationUtil {
         flipLeft();
     }
 
-    public void moveToDeck(){
+    public void moveToDeck() {
         view.animate()
                 .rotationX(180)
-                .setDuration(500)
+                .setDuration(100)
                 .setListener(null);
         view.animate()
                 .alpha(0f)
@@ -46,7 +46,7 @@ public class CardAnimationUtil {
     private void flipRight() {
         view.animate()
                 .rotationYBy(90)
-                .setDuration(150)
+                .setDuration(100)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -61,7 +61,7 @@ public class CardAnimationUtil {
     private void flipLeft() {
         view.animate()
                 .rotationYBy(-90)
-                .setDuration(150)
+                .setDuration(100)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {

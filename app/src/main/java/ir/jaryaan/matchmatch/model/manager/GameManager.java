@@ -194,7 +194,9 @@ public class GameManager implements GameManagerContract {
 
     @Override
     public void stop() {
-        countDown.stop();
+        if (countDown != null) {
+            countDown.stop();
+        }
     }
 
     private boolean matchCards(Card firstCard, Card secondCard) {

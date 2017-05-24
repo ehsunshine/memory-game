@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -61,6 +62,16 @@ public class ScoreboardActivity extends BaseActivity implements
     protected void injectDependencies() {
         applicationComponent.inject(this);
         presenter.onBindView(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return false;
     }
 
     @Override

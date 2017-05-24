@@ -1,6 +1,7 @@
 package ir.jaryaan.matchmatch.ui.board.viewholder;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,8 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     private ViewGroup parent;
     private int cardNumber;
     private CardListener cardListener;
+    private CardAnimationUtil animation;
+    private long lastClickTime = 0;
 
 
     private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int cardNumber, int spanNumber, @NonNull CardListener cardListener) {
@@ -63,11 +66,20 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
                 .load(card.getCardImage().getImageUrl())
                 .into(faceImageView);
 
+        animation = CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build();
     }
 
 
     @OnClick(R.id.body_container)
     void onMessageBodyClick() {
+        if (SystemClock.elapsedRealtime() - lastClickTime < 1500L) {
+            return;
+        }
+        lastClickTime = SystemClock.elapsedRealtime();
         flipCardRight();
         if (cardListener != null) {
             cardListener.onCardClick(card);
@@ -75,21 +87,11 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void flipCardRight() {
-        CardAnimationUtil.builder()
-                .view(bodyContainer)
-                .faceImageView(faceImageView)
-                .card(card)
-                .build()
-                .flipCard();
+        animation.flipCard();
     }
 
     public void flipCardLeft() {
-        CardAnimationUtil.builder()
-                .view(bodyContainer)
-                .faceImageView(faceImageView)
-                .card(card)
-                .build()
-                .flipBackCard();
+        animation.flipBackCard();
 
     }
 

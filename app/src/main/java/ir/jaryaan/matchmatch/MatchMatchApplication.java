@@ -46,7 +46,7 @@ public class MatchMatchApplication extends Application {
 
         JodaTimeAndroid.init(this);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath(getString(R.string.font_wizzta))
+                .setDefaultFontPath(getString(R.string.font_ubuntu))
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

@@ -48,9 +48,11 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
         this.scoreboardLevel = scoreboardLevel;
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE MM/dd/yyyy HH:mm:ss");
 
-        scoreTextView.setText(String.valueOf(scoreboardLevel.getScore()));
+        scoreTextView.setText(context.getString(R.string.score,
+                scoreboardLevel.getScore()));
         nicknameTextView.setText(scoreboardLevel.getNickname());
-        remainingTimeTextView.setText(ConvertUtil.convertMillisecondToMinutesAndSecond(scoreboardLevel.getTimeRemaining()));
+        remainingTimeTextView.setText(context.getString(R.string.timer,
+                ConvertUtil.convertMillisecondToMinutesAndSecond(scoreboardLevel.getTimeRemaining())));
         submitTextView.setText(dateTimeFormatter.print(new DateTime(Long.valueOf(scoreboardLevel.getSubmitTime()))));
     }
 
