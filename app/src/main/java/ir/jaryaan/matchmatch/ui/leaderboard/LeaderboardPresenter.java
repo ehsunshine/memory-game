@@ -50,12 +50,15 @@ public class LeaderboardPresenter implements LeaderboardContract.Presenter {
     }
 
     private void listenToNewScore(@NonNull String levelName) {
+        view.showLoading();
         Subscription subscription = scoreManager.listenToNewScore(view.getScoreId(), levelName)
                 .subscribeOn(schedulerProvider.getComputationScheduler())
                 .observeOn(schedulerProvider.getMainScheduler())
                 .subscribe(score -> {
+                    view.hideLoading();
                     view.addScore(score);
                 }, throwable -> {
+                    view.hideLoading();
                     view.showErrorMessage(throwable);
                 });
         compositeSubscription.add(subscription);

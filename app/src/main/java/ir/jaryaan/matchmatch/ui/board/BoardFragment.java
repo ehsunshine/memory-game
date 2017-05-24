@@ -1,5 +1,6 @@
 package ir.jaryaan.matchmatch.ui.board;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -22,23 +23,17 @@ import butterknife.BindView;
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.ScoreboardLevel;
-import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.model.manager.GameManager.GameStatus;
 import ir.jaryaan.matchmatch.ui.base.BaseFragment;
 import ir.jaryaan.matchmatch.ui.board.adapter.BoardAdapter;
-import ir.jaryaan.matchmatch.ui.main.MainActivity;
 import ir.jaryaan.matchmatch.utils.ConvertUtil;
-
-import static ir.jaryaan.matchmatch.model.manager.GameManager.GAME_STATUS_FINISHED;
-import static ir.jaryaan.matchmatch.model.manager.GameManager.GAME_STATUS_OVER;
 
 /**
  * Created by ehsun on 5/12/2017.
  */
 
 public class BoardFragment extends BaseFragment implements
-        BoardContract.View, BoardAdapter.BoardEventListener,
-        GameManager.GameEventListener {
+        BoardContract.View, BoardAdapter.BoardEventListener {
 
     public static final String EXTRA_SCORE_ID = "SCORE_ID";
     private static final int SPAN_COUNT = 4;
@@ -54,17 +49,27 @@ public class BoardFragment extends BaseFragment implements
 
 
     private Handler handler = new Handler();
+    private Runnable flipCardRunnable;
+    private Runnable winCardRunnable;
     private BoardAdapter adapter;
     private AlertDialog gameOverDialog;
     private String scoreID;
+    private BoardFragmentEventListener boardFragmentEventListener;
 
     public static BoardFragment newInstance(@NonNull String scoreID) {
         BoardFragment fragment = new BoardFragment();
         Bundle args = new Bundle();
         args.putString(EXTRA_SCORE_ID, scoreID);
         fragment.setArguments(args);
-
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context != null && context instanceof BoardFragmentEventListener) {
+            boardFragmentEventListener = (BoardFragmentEventListener) context;
+        }
     }
 
     @Override
@@ -79,7 +84,6 @@ public class BoardFragment extends BaseFragment implements
         return inflater.inflate(R.layout.fragment_board, container, false);
     }
 
-
     @Override
     public void generateBoard(List<Card> cards) {
         adapter.setCards(cards);
@@ -87,14 +91,14 @@ public class BoardFragment extends BaseFragment implements
 
     @Override
     public void flipCardsBack(Card firstCard, Card secondCard) {
-
-        handler.postDelayed(() -> adapter.flipCards(firstCard, secondCard), 1000L);
+        flipCardRunnable = () -> adapter.flipCards(firstCard, secondCard);
+        handler.postDelayed(flipCardRunnable, 1000L);
     }
 
     @Override
     public void winCards(Card firstCard, Card secondCard) {
-
-        handler.postDelayed(() -> adapter.winCards(firstCard, secondCard), 1000L);
+        winCardRunnable = () -> adapter.winCards(firstCard, secondCard);
+        handler.postDelayed(winCardRunnable, 1000L);
     }
 
     @Override
@@ -104,7 +108,6 @@ public class BoardFragment extends BaseFragment implements
 
     @Override
     public void showCards() {
-
         adapter = new BoardAdapter(this, SPAN_COUNT);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT));
         recyclerView.setAdapter(adapter);
@@ -115,21 +118,19 @@ public class BoardFragment extends BaseFragment implements
     protected void injectDependencies() {
         applicationComponent.inject(this);
         presenter.onBindView(this);
-
     }
 
     @Override
     protected void initViews() {
-
-        ((MainActivity) getActivity()).setTimerValue(getString(R.string.timer, "0:00"));
-
+        boardFragmentEventListener.onTimerValueChanged(getString(R.string.timer, "0:00"));
         presenter.onViewInitialized();
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handler.removeCallbacks(flipCardRunnable);
+        handler.removeCallbacks(winCardRunnable);
         presenter.onViewDestroyed();
     }
 
@@ -138,14 +139,9 @@ public class BoardFragment extends BaseFragment implements
         presenter.onCardClicked(card);
     }
 
+
     @Override
-    public void onGameInProgress(@NonNull String remainingTime) {
-        ((MainActivity) getActivity()).setTimerValue(getString(R.string.timer, remainingTime));
-
-    }
-
-    private void showGameOverDialog(@NonNull @GameStatus String gameStatus, @NonNull ScoreboardLevel scoreboardLevel) {
-
+    public void showGameOverDialog(@NonNull @GameStatus String gameStatus, @NonNull ScoreboardLevel scoreboardLevel) {
         if (gameOverDialog == null) {
             this.gameOverDialog = new AlertDialog.Builder(getContext())
                     .setTitle(gameStatus)
@@ -166,10 +162,8 @@ public class BoardFragment extends BaseFragment implements
                 TextView scoreTextView = (TextView) this.gameOverDialog.findViewById(R.id.score_text_view);
                 TextView remainedTimeTextView = (TextView) this.gameOverDialog.findViewById(R.id.remaining_time_text_view);
                 scoreTextView.setText(String.valueOf(scoreboardLevel.getScore()));
-
                 remainedTimeTextView.setText(getString(R.string.timer,
                         ConvertUtil.convertMillisecondToMinutesAndSecond(scoreboardLevel.getTimeRemaining())));
-
                 Button retryButton = (Button) this.gameOverDialog.findViewById(R.id.retry_button);
                 Button submitButton = (Button) this.gameOverDialog.findViewById(R.id.submit_button);
                 retryButton.setOnClickListener(view -> presenter.onGameRetried());
@@ -200,19 +194,19 @@ public class BoardFragment extends BaseFragment implements
         getActivity().onBackPressed();
     }
 
-
     @Override
-    public void onGameOver(@NonNull ScoreboardLevel scoreboardLevel) {
-        showGameOverDialog(GAME_STATUS_OVER, scoreboardLevel);
+    public void updateTimer(String remainingTime) {
+        boardFragmentEventListener.onTimerValueChanged(getString(R.string.timer, remainingTime));
     }
 
     @Override
-    public void onGameCompleted(@NonNull ScoreboardLevel scoreboardLevel) {
-        showGameOverDialog(GAME_STATUS_FINISHED, scoreboardLevel);
+    public void updateScore(long score) {
+        boardFragmentEventListener.onScoreValueChanged(getString(R.string.score, score));
     }
 
-    @Override
-    public void onScoreChanged(long score) {
-        ((MainActivity) getActivity()).setScoreValue(getString(R.string.score, score));
+    public interface BoardFragmentEventListener {
+        void onTimerValueChanged(String time);
+
+        void onScoreValueChanged(String score);
     }
 }

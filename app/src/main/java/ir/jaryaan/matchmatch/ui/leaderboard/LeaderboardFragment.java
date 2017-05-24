@@ -23,8 +23,7 @@ import ir.jaryaan.matchmatch.ui.leaderboard.adapter.LeaderboardAdapter;
  */
 
 public class LeaderboardFragment extends BaseFragment implements
-        LeaderboardContract.View,
-        LeaderboardAdapter.ScoreEventListener {
+        LeaderboardContract.View {
 
     public static final String EXTRA_SCORE_ID = "SCORE_ID";
     public static final String EXTRA_POSITION = "POSITION";
@@ -95,10 +94,5 @@ public class LeaderboardFragment extends BaseFragment implements
     public void onDestroyView() {
         super.onDestroyView();
         presenter.onViewDestroyed();
-    }
-
-    @Override
-    public void onLoadMoreClick() {
-
     }
 }

@@ -23,12 +23,15 @@ import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_MATCHED;
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOTHING;
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_NOT_MATCHED;
 import static ir.jaryaan.matchmatch.entities.Card.CARD_STATUS_WAITING_FOR_MATCH;
+import static ir.jaryaan.matchmatch.model.manager.GameManager.GAME_STATUS_FINISHED;
+import static ir.jaryaan.matchmatch.model.manager.GameManager.GAME_STATUS_OVER;
 
 /**
  * Created by ehsun on 5/12/2017.
  */
 
-public class BoardPresenter implements BoardContract.Presenter {
+public class BoardPresenter implements BoardContract.Presenter,
+        GameManager.GameEventListener {
 
     private ScoreManagerContract scoreManager;
     private SettingRepositoryContract settingRepository;
@@ -77,14 +80,11 @@ public class BoardPresenter implements BoardContract.Presenter {
                 }, throwable -> {
                     view.showErrorMessage(throwable);
                 });
-
-
         compositeSubscription.add(subscription);
     }
 
     private void initialGame(List<CardImage> cardImages) {
-
-        gameManager.initialGame(cardImages, (GameManager.GameEventListener) view);
+        gameManager.initialGame(cardImages, this);
         gameManager.start();
         view.generateBoard(gameManager.getCards());
     }
@@ -167,5 +167,25 @@ public class BoardPresenter implements BoardContract.Presenter {
         gameManager.stop();
         view.hideGameOverDialog();
         view.showCards();
+    }
+
+    @Override
+    public void onGameInProgress(@NonNull String remainingTime) {
+        view.updateTimer(remainingTime);
+    }
+
+    @Override
+    public void onGameOver(@NonNull ScoreboardLevel scoreboardLevel) {
+        view.showGameOverDialog(GAME_STATUS_OVER, scoreboardLevel);
+    }
+
+    @Override
+    public void onGameCompleted(@NonNull ScoreboardLevel scoreboardLevel) {
+        view.showGameOverDialog(GAME_STATUS_FINISHED, scoreboardLevel);
+    }
+
+    @Override
+    public void onScoreChanged(long score) {
+        view.updateScore(score);
     }
 }

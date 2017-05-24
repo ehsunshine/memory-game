@@ -22,7 +22,8 @@ import ir.jaryaan.matchmatch.ui.board.BoardFragment;
  */
 
 public class MainActivity extends BaseActivity implements
-        MainContract.View {
+        MainContract.View,
+        BoardFragment.BoardFragmentEventListener {
 
     public static final String EXTRA_SCORE_ID = "SCORE_ID";
 
@@ -55,7 +56,6 @@ public class MainActivity extends BaseActivity implements
     protected void injectDependencies() {
         applicationComponent.inject(this);
         presenter.onBindView(this);
-
     }
 
     @Override
@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity implements
         return false;
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -90,15 +89,15 @@ public class MainActivity extends BaseActivity implements
                 .beginTransaction()
                 .replace(R.id.fragment_container, BoardFragment.newInstance(scoreID))
                 .commit();
-
     }
 
-    public void setTimerValue(String timerValue) {
-        timerTextView.setText(timerValue);
+    @Override
+    public void onTimerValueChanged(String time) {
+        timerTextView.setText(time);
     }
 
-
-    public void setScoreValue(String score) {
+    @Override
+    public void onScoreValueChanged(String score) {
         scoreTextView.setText(score);
     }
 }

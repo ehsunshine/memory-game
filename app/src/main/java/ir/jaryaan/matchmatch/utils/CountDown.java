@@ -1,6 +1,7 @@
 package ir.jaryaan.matchmatch.utils;
 
 import android.os.Handler;
+import android.os.Looper;
 
 /**
  * Created by E.Mehranvari on 5/22/2017.
@@ -15,7 +16,7 @@ public class CountDown {
     public CountDown(int seconds, long interval) {
         this.milliseconds = seconds * 1000;
         this.interval = interval;
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
     }
 
     public void start(CountDownTimerListener countDownTimerListener) {

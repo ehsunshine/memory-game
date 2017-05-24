@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:text="Score: 0"
-                    android:textSize="@dimen/text_size_xlarge" />
+                    android:textSize="@dimen/text_size_xlarge"/>
 
                 <TextView
                     android:id="@+id/timerTextView"
@@ -39,7 +40,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/keyline_1"
                     android:text="@string/timer"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textSize="@dimen/text_size_large"/>
 
             </android.support.v7.widget.Toolbar>
 
@@ -49,7 +50,7 @@
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
     </LinearLayout>
@@ -59,6 +60,6 @@
         layout="@layout/view_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

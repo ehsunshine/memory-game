@@ -65,6 +65,7 @@ public class ScoreboardActivity extends BaseActivity implements
 
     @Override
     protected void initViews() {
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

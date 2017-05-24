@@ -33,7 +33,6 @@ public class HomePresenter implements HomeContract.Presenter {
         this.firebaseOnlineGateway = firebaseOnlineGateway;
         this.firebaseUserGateway = firebaseUserGateway;
         this.schedulerProvider = schedulerProvider;
-
     }
 
     @Override
@@ -44,7 +43,6 @@ public class HomePresenter implements HomeContract.Presenter {
                 .subscribeOn(schedulerProvider.getComputationScheduler())
                 .subscribe();
         compositeSubscription.add(subscription);
-
     }
 
     @Override
@@ -81,7 +79,6 @@ public class HomePresenter implements HomeContract.Presenter {
         if (!compositeSubscription.isUnsubscribed()) {
             compositeSubscription.unsubscribe();
         }
-
     }
 
     @Override

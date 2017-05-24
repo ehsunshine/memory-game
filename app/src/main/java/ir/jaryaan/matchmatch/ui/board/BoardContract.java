@@ -6,6 +6,7 @@ import java.util.List;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import ir.jaryaan.matchmatch.entities.ScoreboardLevel;
+import ir.jaryaan.matchmatch.model.manager.GameManager;
 import ir.jaryaan.matchmatch.ui.base.BasePresenterContract;
 import ir.jaryaan.matchmatch.ui.base.BaseViewContract;
 
@@ -26,12 +27,18 @@ public interface BoardContract {
 
         void showCards();
 
+        void showGameOverDialog(@NonNull @GameManager.GameStatus String gameStatus, @NonNull ScoreboardLevel scoreboardLevel);
+
         void hideGameOverDialog();
 
         @NonNull
         String getScoreId();
 
         void showHomeScreen();
+
+        void updateTimer(String remainingTime);
+
+        void updateScore(long score);
     }
 
     interface Presenter extends BasePresenterContract<BoardContract.View> {

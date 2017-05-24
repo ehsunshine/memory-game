@@ -46,8 +46,7 @@ public class ConvertUtil {
         return defaultValue;
     }
 
-    public static String convertMillisecondToMinutesAndSecond(long milliseconds)
-    {
+    public static String convertMillisecondToMinutesAndSecond(long milliseconds) {
         Duration duration = new Duration(milliseconds);
         Period period = duration.toPeriod();
         PeriodFormatter minutesAndSeconds = new PeriodFormatterBuilder()

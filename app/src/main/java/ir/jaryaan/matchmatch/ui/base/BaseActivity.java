@@ -103,23 +103,25 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void showLoading() {
-        assert loadingView != null;
-        loadingView.setAlpha(1f);
-        loadingView.setVisibility(View.VISIBLE);
+        if (loadingView != null) {
+            loadingView.setAlpha(1f);
+            loadingView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void hideLoading() {
-        assert loadingView != null;
-        animator = loadingView.animate()
-                .alpha(0f)
-                .setDuration(mediumAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        loadingView.setVisibility(View.GONE);
-                    }
-                });
+        if (loadingView != null) {
+            animator = loadingView.animate()
+                    .alpha(0f)
+                    .setDuration(mediumAnimationDuration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
+        }
     }
 
 }

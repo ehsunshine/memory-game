@@ -2,12 +2,7 @@ package ir.jaryaan.matchmatch.utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 
 import ir.jaryaan.matchmatch.entities.Card;
 import lombok.Builder;
@@ -29,7 +24,6 @@ public class CardAnimationUtil {
 
 
     public void flipCard() {
-
         if (card.isFaceDown()) {
             flipRight();
         }
@@ -40,7 +34,6 @@ public class CardAnimationUtil {
     }
 
     public void moveToDeck(){
-
         view.animate()
                 .rotationX(180)
                 .setDuration(500)
@@ -48,11 +41,9 @@ public class CardAnimationUtil {
         view.animate()
                 .alpha(0f)
                 .setDuration(400);
-
     }
 
     private void flipRight() {
-
         view.animate()
                 .rotationYBy(90)
                 .setDuration(150)
@@ -65,7 +56,6 @@ public class CardAnimationUtil {
                         }
                     }
                 });
-
     }
 
     private void flipLeft() {
@@ -82,5 +72,4 @@ public class CardAnimationUtil {
                     }
                 });
     }
-
 }

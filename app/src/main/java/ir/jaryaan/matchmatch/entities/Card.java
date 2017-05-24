@@ -6,9 +6,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import java.lang.annotation.Retention;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.Random;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +26,11 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @ToString
 @EqualsAndHashCode(of = "id")
 public class Card implements Parcelable {
+
+    public static final int CARD_STATUS_NOTHING = 0;
+    public static final int CARD_STATUS_WAITING_FOR_MATCH = 1;
+    public static final int CARD_STATUS_MATCHED = 2;
+    public static final int CARD_STATUS_NOT_MATCHED = 3;
     public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
         @Override
         public Card createFromParcel(Parcel source) {
@@ -40,14 +42,9 @@ public class Card implements Parcelable {
             return new Card[size];
         }
     };
-    public static final int CARD_STATUS_NOTHING = 0;
-    public static final int CARD_STATUS_WAITING_FOR_MATCH = 1;
-    public static final int CARD_STATUS_MATCHED = 2;
-    public static final int CARD_STATUS_NOT_MATCHED = 3;
     private int id;
     private CardImage cardImage;
     private boolean faceDown;
-    private SecureRandom random = new SecureRandom();
     private boolean collected;
 
     public Card(int id, @NonNull CardImage cardImage) {
@@ -56,14 +53,19 @@ public class Card implements Parcelable {
         this.faceDown = true;
     }
 
+    protected Card(Parcel in) {
+        this.id = in.readInt();
+        this.cardImage = in.readParcelable(CardImage.class.getClassLoader());
+    }
+
     public void collect() {
 
         collected = true;
     }
 
-    protected Card(Parcel in) {
-        this.id = in.readInt();
-        this.cardImage = in.readParcelable(CardImage.class.getClassLoader());
+    public boolean isMatchWith(Card newCard) {
+
+        return this.getCardImage().getId() == newCard.getCardImage().getId();
     }
 
     public void flip() {
@@ -79,11 +81,6 @@ public class Card implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeParcelable(this.cardImage, flags);
-    }
-
-    public boolean isMatchWith(Card newCard) {
-
-        return this.getCardImage().getId() == newCard.getCardImage().getId();
     }
 
     @Retention(SOURCE)

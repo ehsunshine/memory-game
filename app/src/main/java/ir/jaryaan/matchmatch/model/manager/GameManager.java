@@ -52,10 +52,10 @@ public class GameManager implements GameManagerContract {
     @Override
     public void initialGame(@NonNull List<CardImage> cardImages, @NonNull GameEventListener gameEventListener) {
         this.gameEventListener = gameEventListener;
-
+        firstFlippedCard = null;
         countDown = new CountDown(120, 1000);
-
         scoreboardLevel = new ScoreboardLevel();
+
         switch (settingRepository.getSetting().getDifficultyLevel()) {
             case DIFFICULTY_LEVEL_EASY:
                 scoreboardLevel.setLevel("Easy");
@@ -70,6 +70,7 @@ public class GameManager implements GameManagerContract {
                 scoreboardLevel.setLevel("Insane");
                 break;
         }
+
         scoreboardLevel.setNickname(settingRepository.getSetting().getNickname());
 
         List<Card> cardList = new ArrayList<>();
