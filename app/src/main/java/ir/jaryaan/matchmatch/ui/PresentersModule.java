@@ -16,8 +16,12 @@ import ir.jaryaan.matchmatch.ui.home.HomeContract;
 import ir.jaryaan.matchmatch.ui.home.HomePresenter;
 import ir.jaryaan.matchmatch.ui.launch.LaunchContract;
 import ir.jaryaan.matchmatch.ui.launch.LaunchPresenter;
+import ir.jaryaan.matchmatch.ui.leaderboard.LeaderboardContract;
+import ir.jaryaan.matchmatch.ui.leaderboard.LeaderboardPresenter;
 import ir.jaryaan.matchmatch.ui.main.MainContract;
 import ir.jaryaan.matchmatch.ui.main.MainPresenter;
+import ir.jaryaan.matchmatch.ui.scoreboard.ScoreboardContract;
+import ir.jaryaan.matchmatch.ui.scoreboard.ScoreboardPresenter;
 import ir.jaryaan.matchmatch.ui.setting.SettingContract;
 import ir.jaryaan.matchmatch.ui.setting.SettingPresenter;
 import ir.jaryaan.matchmatch.utils.scheduler.SchedulerProvider;
@@ -59,5 +63,16 @@ public class PresentersModule {
     @Provides
     public SettingContract.Presenter provideSettingPresenter(@NonNull SettingRepositoryContract settingRepository) {
         return new SettingPresenter(settingRepository);
+    }
+
+    @Provides
+    public ScoreboardContract.Presenter provideScoreboardPresenter(@NonNull ScoreManagerContract scoreManager) {
+        return new ScoreboardPresenter(scoreManager);
+    }
+
+    @Provides
+    public LeaderboardContract.Presenter provideLeaderboardPresenter(@NonNull ScoreManagerContract scoreManager,
+                                                                     @NonNull SchedulerProvider schedulerProvider) {
+        return new LeaderboardPresenter(scoreManager, schedulerProvider);
     }
 }

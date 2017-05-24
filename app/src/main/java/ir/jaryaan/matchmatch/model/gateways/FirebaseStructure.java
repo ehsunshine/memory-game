@@ -11,7 +11,6 @@ public class FirebaseStructure {
 
     public static final class Scoreboards {
         public static final String LEVEL = "Level";
-        public static final String SCORE = "Scores";
 
         public static final class Scores {
             public static final String NICKNAME = "Nickname";

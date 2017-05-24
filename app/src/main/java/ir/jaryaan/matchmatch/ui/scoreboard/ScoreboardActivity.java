@@ -66,7 +66,9 @@ public class ScoreboardActivity extends BaseActivity implements
     @Override
     protected void initViews() {
         setSupportActionBar(toolbar);
-        fragmentListPagerAdapter = new FragmentListPagerAdapter(getSupportFragmentManager());
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        fragmentListPagerAdapter = new FragmentListPagerAdapter(getSupportFragmentManager(), scoreID);
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(fragmentListPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

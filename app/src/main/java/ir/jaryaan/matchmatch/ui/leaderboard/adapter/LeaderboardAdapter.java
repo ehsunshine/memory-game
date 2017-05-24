@@ -74,8 +74,13 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 : ITEM_TYPE_SCORE;
     }
 
-    public void add(@NonNull List<ScoreboardLevel> scoreboardLevels) {
+    public void addAll(@NonNull List<ScoreboardLevel> scoreboardLevels) {
         this.scoreboardLevels.addAll(scoreboardLevels);
+        notifyDataSetChanged();
+    }
+
+    public void add(@NonNull ScoreboardLevel scoreboardLevel) {
+        this.scoreboardLevels.add(scoreboardLevel);
         notifyDataSetChanged();
     }
 

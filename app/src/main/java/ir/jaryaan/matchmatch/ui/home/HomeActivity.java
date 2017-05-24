@@ -19,6 +19,7 @@ import ir.jaryaan.matchmatch.entities.Setting;
 import ir.jaryaan.matchmatch.entities.Setting.DifficultyLevel;
 import ir.jaryaan.matchmatch.ui.base.BaseActivity;
 import ir.jaryaan.matchmatch.ui.main.MainActivity;
+import ir.jaryaan.matchmatch.ui.scoreboard.ScoreboardActivity;
 import ir.jaryaan.matchmatch.ui.setting.SettingActivity;
 
 /**
@@ -63,6 +64,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         presenter.onSettingClicked();
     }
 
+    @OnClick(R.id.leader_board_button)
+    void onLeaderboardClick() {
+        presenter.onLeaderboardClick();
+    }
+
     @OnClick({R.id.easy_button, R.id.normal_button, R.id.hard_button, R.id.insane_button})
     void onStartGameClick(Button button) {
         @DifficultyLevel int difficultyLevel = DEFAULT_KEYS_DIALER;
@@ -98,8 +104,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     @Override
-    public void showScoreScreen() {
-
+    public void showScoreScreen(@NonNull String scoreID) {
+        startActivity(ScoreboardActivity.newIntent(this, scoreID));
     }
 
     @Override

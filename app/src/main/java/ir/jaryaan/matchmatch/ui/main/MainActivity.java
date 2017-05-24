@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -25,17 +22,13 @@ import ir.jaryaan.matchmatch.ui.board.BoardFragment;
  */
 
 public class MainActivity extends BaseActivity implements
-        MainContract.View, NavigationView.OnNavigationItemSelectedListener {
+        MainContract.View {
 
     public static final String EXTRA_SCORE_ID = "SCORE_ID";
 
     @Inject MainContract.Presenter presenter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
     @BindView(R.id.fragment_container)
     FrameLayout fragmentContainer;
     @BindView(R.id.timerTextView)
@@ -68,15 +61,22 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void initViews() {
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter.onViewInitialized();
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return false;
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -97,10 +97,6 @@ public class MainActivity extends BaseActivity implements
         timerTextView.setText(timerValue);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
 
     public void setScoreValue(String score) {
         scoreTextView.setText(score);

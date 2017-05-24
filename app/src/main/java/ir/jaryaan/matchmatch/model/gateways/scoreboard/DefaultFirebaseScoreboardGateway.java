@@ -32,9 +32,7 @@ public class DefaultFirebaseScoreboardGateway
     public Observable<ScoreboardLevel> subscribeScores(@NonNull String scoreID, @NonNull String levelName) {
         DatabaseReference scoreRef = firebaseDatabase.getReference()
                 .child(FirebaseStructure.SCOREBOARD)
-                .child(levelName)
-                .child(scoreID)
-                .child(FirebaseStructure.Scoreboards.SCORE);
+                .child(levelName);
 
         final ChildEventListener[] childEventListener = new ChildEventListener[1];
 
@@ -42,12 +40,15 @@ public class DefaultFirebaseScoreboardGateway
             childEventListener[0] = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    ScoreboardLevel scoreboardLevel = ScoreboardLevel.fromMap((Map<String, Object>) dataSnapshot.getValue());
-                    subscriber.onNext(scoreboardLevel);
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        ScoreboardLevel scoreboardLevel = ScoreboardLevel.fromMap((Map<String, Object>) postSnapshot.getValue());
+                        subscriber.onNext(scoreboardLevel);
+                    }
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
                 }
 
                 @Override
@@ -80,9 +81,7 @@ public class DefaultFirebaseScoreboardGateway
             DatabaseReference messageRef = firebaseDatabase.getReference()
                     .child(FirebaseStructure.SCOREBOARD)
                     .child(scoreboardLevel.getLevel())
-                    .child(FirebaseStructure.Scoreboards.SCORE)
-                    .child(scoreID)
-                    .push();
+                    .child(scoreID);
 
             messageRef.setValue(scoreboardLevel.toMap(), (databaseError, databaseReference) -> {
                 if (databaseError != null) {

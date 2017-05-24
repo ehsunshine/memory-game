@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import ir.jaryaan.matchmatch.R;
+import ir.jaryaan.matchmatch.entities.ScoreboardLevel;
 import ir.jaryaan.matchmatch.ui.base.BaseFragment;
 import ir.jaryaan.matchmatch.ui.leaderboard.adapter.LeaderboardAdapter;
 
@@ -34,7 +35,7 @@ public class LeaderboardFragment extends BaseFragment implements
     RecyclerView recyclerView;
     private LeaderboardAdapter adapter;
     private String scoreID;
-    private int fragmentPosition;
+    private int leaderboardID;
 
     public static Fragment newInstance(int position, @NonNull String scoreID) {
         LeaderboardFragment fragment = new LeaderboardFragment();
@@ -49,7 +50,7 @@ public class LeaderboardFragment extends BaseFragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.scoreID = getArguments().getString(EXTRA_SCORE_ID);
-        this.fragmentPosition = getArguments().getInt(EXTRA_POSITION);
+        this.leaderboardID = getArguments().getInt(EXTRA_POSITION);
     }
 
     @Nullable
@@ -75,8 +76,19 @@ public class LeaderboardFragment extends BaseFragment implements
 
     @NonNull
     @Override
+    public int getLeaderboardId() {
+        return leaderboardID;
+    }
+
+    @NonNull
+    @Override
     public String getScoreId() {
         return scoreID;
+    }
+
+    @Override
+    public void addScore(ScoreboardLevel score) {
+        adapter.add(score);
     }
 
     @Override

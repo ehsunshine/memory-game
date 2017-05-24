@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorGrey400">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey400">
 
     <ImageView
         android:id="@+id/settingImageButton"
@@ -12,14 +12,14 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_normal"
         android:clickable="true"
-        android:src="@drawable/ic_settings_black_24dp" />
+        android:src="@drawable/ic_settings_black_24dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_x_large"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/buttonHolder"
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:descendantFocusability="beforeDescendants"
                     android:focusableInTouchMode="true"
-                    android:hint="@string/nickname" />
+                    android:hint="@string/nickname"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -59,40 +59,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
-                android:background="@color/colorAccent"
+                android:background="@color/colorBlueGrey800"
                 android:text="@string/easy"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"/>
 
             <Button
                 android:id="@+id/normal_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
-                android:background="@color/colorAccent"
+                android:background="@color/colorBlueGrey800"
                 android:text="@string/normal"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"/>
 
             <Button
                 android:id="@+id/hard_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
-                android:background="@color/colorAccent"
+                android:background="@color/colorBlueGrey800"
                 android:text="@string/hard"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"/>
 
             <Button
                 android:id="@+id/insane_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
-                android:background="@color/colorAccent"
+                android:background="@color/colorBlueGrey800"
                 android:text="@string/insane"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/leader_board_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttonHolder"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:background="@color/colorBlueGrey800"
+        android:text="@string/leaderboard"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_large"/>
 </RelativeLayout>

@@ -24,4 +24,7 @@
     <string name="get_ready">Get Ready\\n%s</string>
     <string name="submit">Submit</string>
     <string name="retry">Try Againg</string>
+    <string name="load_more">Load More</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="game">Game</string>
 </resources>

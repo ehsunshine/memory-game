@@ -19,7 +19,7 @@ public interface HomeContract {
 
         void showSettingScreen();
 
-        void showScoreScreen();
+        void showScoreScreen(@NonNull String scoreID);
 
         void showCurrentSetting(Setting setting);
     }
@@ -29,5 +29,7 @@ public interface HomeContract {
         void onSettingClicked();
 
         void onGameStarted(@NonNull String nickname, @Setting.DifficultyLevel int difficultyLevel);
+
+        void onLeaderboardClick();
     }
 }

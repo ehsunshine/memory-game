@@ -95,4 +95,9 @@ public class HomePresenter implements HomeContract.Presenter {
         settingRepository.setDifficultyLevel(difficultyLevel);
         view.showGameScreen(view.getInstanceId());
     }
+
+    @Override
+    public void onLeaderboardClick() {
+        view.showScoreScreen(view.getInstanceId());
+    }
 }
