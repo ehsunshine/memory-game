@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="font_retraven">font/RetravantGarden.ttf</string>
-    <string name="font_wizzta">font/wizzta.ttf</string>
     <string name="font_ubuntu">font/Ubuntu-M.ttf</string>
 </resources>

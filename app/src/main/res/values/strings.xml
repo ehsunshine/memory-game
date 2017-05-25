@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MatchMatch</string>
+    <string name="app_name">Match Match</string>
     <string name="network_error_message">Network Error</string>
     <string name="unknown_error_message">Unknown Error</string>
     <string name="signout">Sign out</string>
@@ -27,4 +27,5 @@
     <string name="load_more">Load More</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="game">Game</string>
+    <string name="wait">Please Wait…</string>
 </resources>

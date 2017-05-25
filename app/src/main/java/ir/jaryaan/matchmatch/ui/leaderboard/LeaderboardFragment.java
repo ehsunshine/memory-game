@@ -68,6 +68,7 @@ public class LeaderboardFragment extends BaseFragment implements
     @Override
     protected void initViews() {
         adapter = new LeaderboardAdapter(scoreID);
+        updateScreenTitle(getString(R.string.leaderboard));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         presenter.onViewInitialized();

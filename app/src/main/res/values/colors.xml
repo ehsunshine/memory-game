@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#a34db4</color>
-    <color name="colorPrimaryDark">#420056</color>
-    <color name="colorAccent">#721b84</color>
-    <color name="loading_backgroundColor">#7b000000</color>
+    <color name="colorPrimary">#37474F</color>
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#455A64</color>
 
+    <color name="loading_backgroundColor">#7b263238</color>
     <color name="lightBackgroundColor">#eee</color>
-    <color name="colorGrey400">#BDBDBD</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey900">#212121</color>
+
     <color name="colorDeepOrange900">#BF360C</color>
     <color name="colorRed900">#B71C1C</color>
+    <color name="colorBlueGrey400">#78909C</color>
+    <color name="colorBlueGrey500">#607D8B</color>
+    <color name="colorBlueGrey600">#546E7A</color>
     <color name="colorBlueGrey900">#263238</color>
     <color name="colorBlueGrey800">#37474F</color>
+
     <color name="colorLaunchGrey">#1e1e23</color>
     <color name="windowBackground">#FFEEEEEE</color>
 

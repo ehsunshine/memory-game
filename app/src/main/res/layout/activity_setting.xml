@@ -30,7 +30,7 @@
             android:layout_marginBottom="@dimen/text_size_normal"
             android:checked="false"
             android:text="@string/dog"
-            android:textSize="@dimen/spacing_normal" />
+            android:textSize="@dimen/text_size_normal"/>
 
         <RadioButton
             android:id="@+id/humanRadioButton"
