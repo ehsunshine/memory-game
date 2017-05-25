@@ -64,7 +64,8 @@ public class DefaultFirebaseScoreboardGateway
                     subscriber.onError(databaseError.toException());
                 }
             };
-            scoreRef.addChildEventListener(childEventListener[0]);
+            scoreRef.orderByChild(FirebaseStructure.Scoreboards.Scores.SCORE)
+                    .addChildEventListener(childEventListener[0]);
         });
 
         scoreboardLevelObservable = scoreboardLevelObservable.doOnUnsubscribe(() ->
