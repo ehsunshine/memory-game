@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBlueGrey400">
+
+    <ImageView
+        android:id="@+id/settingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:clickable="true"
+        android:src="@drawable/ic_settings_black_24dp"/>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/spacing_large"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:textAlignment="viewStart"
+                app:hintAnimationEnabled="true">
+
+                <EditText
+                    android:id="@+id/nickname_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/nickname"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/easy_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:background="@color/colorBlueGrey800"
+                android:text="@string/easy"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_large"/>
+
+            <Button
+                android:id="@+id/normal_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:background="@color/colorBlueGrey800"
+                android:text="@string/normal"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_large"/>
+
+            <Button
+                android:id="@+id/hard_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:background="@color/colorBlueGrey800"
+                android:text="@string/hard"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_large"/>
+
+            <Button
+                android:id="@+id/insane_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:background="@color/colorBlueGrey800"
+                android:text="@string/insane"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_large"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/leader_board_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttonHolder"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:background="@color/colorDeepOrange900"
+        android:text="@string/leaderboard"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_large"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/leader_board_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_x_large"
+        android:src="@drawable/ic_logo"/>
+
+</RelativeLayout>

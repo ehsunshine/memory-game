@@ -1,15 +1,22 @@
 package ir.jaryaan.matchmatch;
 
+import android.content.SharedPreferences;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
 import ir.jaryaan.matchmatch.model.ManagerModule;
+import ir.jaryaan.matchmatch.model.gateways.GatewaysModule;
 import ir.jaryaan.matchmatch.model.source.SourceModule;
 import ir.jaryaan.matchmatch.network.NetworkModule;
 import ir.jaryaan.matchmatch.ui.PresentersModule;
 import ir.jaryaan.matchmatch.ui.board.BoardFragment;
+import ir.jaryaan.matchmatch.ui.home.HomeActivity;
 import ir.jaryaan.matchmatch.ui.launch.LaunchActivity;
+import ir.jaryaan.matchmatch.ui.leaderboard.LeaderboardFragment;
 import ir.jaryaan.matchmatch.ui.main.MainActivity;
+import ir.jaryaan.matchmatch.ui.scoreboard.ScoreboardActivity;
+import ir.jaryaan.matchmatch.ui.setting.SettingActivity;
 import ir.jaryaan.matchmatch.utils.UtilsModule;
 
 /**
@@ -19,6 +26,7 @@ import ir.jaryaan.matchmatch.utils.UtilsModule;
 @Singleton
 @Component(modules = {
         NetworkModule.class,
+        GatewaysModule.class,
         PresentersModule.class,
         SourceModule.class,
         ManagerModule.class,
@@ -26,9 +34,19 @@ import ir.jaryaan.matchmatch.utils.UtilsModule;
 })
 public interface ApplicationComponent {
 
+    SharedPreferences getSharedPreferences();
+
     void inject(LaunchActivity activity);
+
+    void inject(HomeActivity activity);
 
     void inject(MainActivity activity);
 
     void inject(BoardFragment fragment);
+
+    void inject(SettingActivity settingActivity);
+
+    void inject(ScoreboardActivity scoreboardActivity);
+
+    void inject(LeaderboardFragment leaderboardFragment);
 }

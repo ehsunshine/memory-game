@@ -10,19 +10,31 @@
     </style>
 
     <style name="MaterialTheme" parent="AppThemeWithActionBar">
-        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
-    <style name="LaunchMaterialTheme" parent="AppThemeWithActionBar">
-        <item name="colorPrimary">@color/colorAccent</item>
+    <style name="DialogMaterialTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
-        <item name="android:windowBackground">@drawable/side_nav_bar</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+    <style name="HomeTheme" parent="AppTheme">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="LaunchMaterialTheme" parent="AppThemeWithActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
     </style>
 
     <style name="LoginTheme" parent="AppTheme">
@@ -55,6 +67,10 @@
 
     <style name="NormalToolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="DrawerStyle">
+        <item name="android:textSize">@dimen/text_size_xlarge</item>
     </style>
 
 

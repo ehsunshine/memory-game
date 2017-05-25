@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/loading_container"
+        layout="@layout/view_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -12,9 +19,10 @@
         android:layout_margin="@dimen/spacing_normal" />
 
     <include
-        android:id="@+id/loading_container"
-        layout="@layout/view_loading"
+        android:id="@+id/game_over_container"
+        layout="@layout/view_game_over"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
 </LinearLayout>

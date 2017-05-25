@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MatchMatch</string>
+    <string name="app_name">Match Match</string>
     <string name="network_error_message">Network Error</string>
     <string name="unknown_error_message">Unknown Error</string>
     <string name="signout">Sign out</string>
@@ -8,4 +8,24 @@
     <string name="about">About</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="timer">Remaining Time: %s</string>
+    <string name="score">Score: %d</string>
+    <string name="easy">Easy</string>
+    <string name="insane">Insane</string>
+    <string name="hard">Hard</string>
+    <string name="normal">Normal</string>
+    <string name="nickname">Nickname</string>
+    <string name="cat">Kitten</string>
+    <string name="dog">Dog</string>
+    <string name="people">People</string>
+    <string name="save">Save</string>
+    <string name="fashion">Fashion</string>
+    <string name="abstractpics">Abstract</string>
+    <string name="get_ready">Get Ready\\n%s</string>
+    <string name="submit">Submit</string>
+    <string name="retry">Try Againg</string>
+    <string name="load_more">Load More</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="game">Game</string>
+    <string name="wait">Please Wait…</string>
 </resources>

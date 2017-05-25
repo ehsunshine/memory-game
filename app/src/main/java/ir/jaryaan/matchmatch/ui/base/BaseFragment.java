@@ -112,16 +112,17 @@ public abstract class BaseFragment extends Fragment implements BaseViewContract 
 
     @Override
     public void hideLoading() {
-        assert loadingView != null;
-        animator = loadingView.animate()
-                .alpha(0f)
-                .setDuration(mediumAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        loadingView.setVisibility(View.GONE);
-                    }
-                });
+        if (loadingView != null) {
+            animator = loadingView.animate()
+                    .alpha(0f)
+                    .setDuration(mediumAnimationDuration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            loadingView.setVisibility(View.GONE);
+                        }
+                    });
+        }
     }
 
 }

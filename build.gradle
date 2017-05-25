@@ -8,7 +8,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.4'
-
+        classpath 'com.google.gms:google-services:3.0.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -42,4 +42,7 @@ ext {
     espressoVersion = '2.2.2'
     testRunnerVersion = '0.5'
     jodatimeVersion = '2.9.4.1'
+    playServiceVersion = '10.2.4'
+    googleFirebaseVersion = '10.2.4'
+
 }

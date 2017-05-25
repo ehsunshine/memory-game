@@ -11,11 +11,9 @@ public interface MainContract {
     interface View extends BaseViewContract {
 
         void showBoardScreen();
-
     }
 
     interface Presenter extends BasePresenterContract<View> {
-
     }
 
 }

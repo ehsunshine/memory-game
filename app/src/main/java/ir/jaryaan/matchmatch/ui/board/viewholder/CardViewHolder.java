@@ -1,8 +1,7 @@
 package ir.jaryaan.matchmatch.ui.board.viewholder;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.jaryaan.matchmatch.R;
 import ir.jaryaan.matchmatch.entities.Card;
+import ir.jaryaan.matchmatch.utils.CardAnimationUtil;
 
 /**
  * Created by ehsun on 5/12/2017.
@@ -26,6 +26,7 @@ import ir.jaryaan.matchmatch.entities.Card;
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
+    private final int spanNumber;
     @BindView(R.id.face_image_view)
     ImageView faceImageView;
     @BindView(R.id.body_container)
@@ -36,22 +37,25 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
     private ViewGroup parent;
     private int cardNumber;
     private CardListener cardListener;
+    private CardAnimationUtil animation;
+    private long lastClickTime = 0;
 
 
-    private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int cardNumber, @NonNull CardListener cardListener) {
+    private CardViewHolder(@NonNull View itemView, @NonNull ViewGroup parent, int cardNumber, int spanNumber, @NonNull CardListener cardListener) {
         super(itemView);
         this.context = itemView.getContext().getApplicationContext();
         this.cardListener = cardListener;
         this.parent = parent;
         this.cardNumber = cardNumber;
+        this.spanNumber = spanNumber;
         ButterKnife.bind(this, itemView);
         calculateItemSize();
 
     }
 
     private void calculateItemSize() {
-        int numberOfRows = cardNumber / 4;
-        itemView.setLayoutParams(new RelativeLayout.LayoutParams(parent.getWidth() / 4, parent.getHeight() / numberOfRows));
+        int numberOfRows = cardNumber / spanNumber;
+        itemView.setLayoutParams(new RelativeLayout.LayoutParams(parent.getWidth() / spanNumber, parent.getHeight() / numberOfRows));
     }
 
 
@@ -62,67 +66,43 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
                 .load(card.getCardImage().getImageUrl())
                 .into(faceImageView);
 
+        animation = CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build();
     }
 
 
     @OnClick(R.id.body_container)
     void onMessageBodyClick() {
-        flipRight90degree();
+        if (SystemClock.elapsedRealtime() - lastClickTime < 1500L) {
+            return;
+        }
+        lastClickTime = SystemClock.elapsedRealtime();
+        flipCardRight();
         if (cardListener != null) {
             cardListener.onCardClick(card);
         }
     }
 
-    private void flipRight90degree() {
-        bodyContainer
-                .animate()
-                .rotationY(90)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (faceImageView.getVisibility() == View.GONE) {
-                            faceImageView.setVisibility(View.VISIBLE);
-                            flipRight180degree();
-                        } else {
-                            flipLeft90degree();
-                        }
-                    }
-                });
+    private void flipCardRight() {
+        animation.flipCard();
     }
 
-    private void flipLeft90degree() {
-        bodyContainer
-                .animate()
-                .rotationY(-90)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (faceImageView.getVisibility() == View.VISIBLE) {
-                            faceImageView.setVisibility(View.GONE);
-                            flipLeft180degree();
-                        } else {
-                            flipRight90degree();
-                        }
-                    }
-                });
+    public void flipCardLeft() {
+        animation.flipBackCard();
+
     }
 
-    private void flipLeft180degree() {
-        bodyContainer
-                .animate()
-                .rotationY(-180)
-                .setDuration(300)
-                .setListener(null);
-    }
+    public void moveCardToDeck() {
+        CardAnimationUtil.builder()
+                .view(bodyContainer)
+                .faceImageView(faceImageView)
+                .card(card)
+                .build()
+                .moveToDeck();
 
-    private void flipRight180degree() {
-        bodyContainer
-                .animate()
-                .rotationY(180)
-                .setDuration(300)
-                .setListener(null);
     }
 
     public interface CardListener {
@@ -133,6 +113,7 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         private ViewGroup parent;
         private CardListener cardListener;
         private int cardNumber;
+        private int spanCount;
 
         @NonNull
         public Builder parent(@NonNull ViewGroup parent) {
@@ -156,7 +137,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         public CardViewHolder build() {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.grid_item_card_item, parent, false);
-            return new CardViewHolder(view, parent, cardNumber, cardListener);
+            return new CardViewHolder(view, parent, cardNumber, spanCount, cardListener);
+        }
+
+        public Builder spanNumber(int spanCount) {
+            this.spanCount = spanCount;
+            return this;
         }
     }
 

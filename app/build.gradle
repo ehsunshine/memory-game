@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -96,5 +97,10 @@ dependencies {
     //JodaTime
     compile "net.danlew:android.joda:$rootProject.ext.jodatimeVersion"
 
+    //Firebase
+    compile "com.google.firebase:firebase-core:$rootProject.ext.googleFirebaseVersion"
+    compile "com.google.firebase:firebase-database:$rootProject.ext.googleFirebaseVersion"
+    compile "com.google.firebase:firebase-auth:$rootProject.ext.googleFirebaseVersion"
 
 }
+apply plugin: 'com.google.gms.google-services'

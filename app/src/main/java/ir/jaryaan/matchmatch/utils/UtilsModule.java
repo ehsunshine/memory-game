@@ -3,6 +3,8 @@ package ir.jaryaan.matchmatch.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import ir.jaryaan.matchmatch.utils.scheduler.DefaultSchedulerProvider;
