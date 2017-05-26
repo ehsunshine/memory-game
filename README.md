@@ -7,7 +7,7 @@
 - Can be played `Easy`, `Normal`, `Hard` and `Insane` mode
 - Scores are submitted in different leader-boards regarding the game mode
 
-<img src="https://drive.google.com/file/d/0B3Vp1ZCeCT8nNS1VLV9Dcm15cmM/view"/>
+<img src="http://jaryaan.ir/wp-content/uploads/2017/05/Screenshot.png" width='400px'/>
 
 ### Download from Google Play
 
