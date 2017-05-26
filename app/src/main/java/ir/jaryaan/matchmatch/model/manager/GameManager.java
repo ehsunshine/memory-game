@@ -173,7 +173,6 @@ public class GameManager implements GameManagerContract {
 
     @Override
     public void gameOver() {
-
         if (!isGameFinished()) {
             gameEventListener.onGameOver(scoreboardLevel);
         } else {

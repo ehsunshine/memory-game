@@ -40,7 +40,7 @@ public class DefaultFirebaseScoreboardGateway
             childEventListener[0] = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    ScoreboardLevel scoreboardLevel = ScoreboardLevel.fromMap((Map<String, Object>) dataSnapshot.getValue());
+                    ScoreboardLevel scoreboardLevel = ScoreboardLevel.fromMap((Map<String, Object>) dataSnapshot.getValue(), dataSnapshot.getKey());
                     subscriber.onNext(scoreboardLevel);
                 }
 
@@ -62,7 +62,8 @@ public class DefaultFirebaseScoreboardGateway
                     subscriber.onError(databaseError.toException());
                 }
             };
-            scoreRef.orderByChild(FirebaseStructure.Scoreboards.Scores.SCORE)
+            scoreRef.orderByChild(FirebaseStructure.Scoreboards.Scores.WEIGHT)
+                    .limitToLast(100)
                     .addChildEventListener(childEventListener[0]);
         });
 

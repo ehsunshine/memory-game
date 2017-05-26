@@ -22,14 +22,18 @@ public class ScoreboardLevel {
     private int score;
     private long timeRemaining;
     private long submitTime;
+    private long weight;
+    private String scoreID;
 
-    public static ScoreboardLevel fromMap(Map<String, Object> map) {
+    public static ScoreboardLevel fromMap(Map<String, Object> map, String scoreID) {
         ScoreboardLevel scoreboardLevel = new ScoreboardLevel();
         scoreboardLevel.level = (String) map.get(FirebaseStructure.Scoreboards.LEVEL);
         scoreboardLevel.nickname = ConvertUtil.castString(map.get(FirebaseStructure.Scoreboards.Scores.NICKNAME), "");
         scoreboardLevel.submitTime = ConvertUtil.castLong(map.get(FirebaseStructure.Scoreboards.Scores.SUBMIT_DATETIME), 0);
         scoreboardLevel.timeRemaining = ConvertUtil.castLong(map.get(FirebaseStructure.Scoreboards.Scores.REMAINING_TIME), 0);
         scoreboardLevel.score = ConvertUtil.castInt(map.get(FirebaseStructure.Scoreboards.Scores.SCORE), 0);
+        scoreboardLevel.weight = ConvertUtil.castLong(map.get(FirebaseStructure.Scoreboards.Scores.WEIGHT), 0);
+        scoreboardLevel.scoreID = scoreID;
         return scoreboardLevel;
     }
 
@@ -40,10 +44,15 @@ public class ScoreboardLevel {
         map.put(FirebaseStructure.Scoreboards.Scores.SUBMIT_DATETIME, ServerValue.TIMESTAMP);
         map.put(FirebaseStructure.Scoreboards.Scores.SCORE, score);
         map.put(FirebaseStructure.Scoreboards.Scores.REMAINING_TIME, timeRemaining);
+        map.put(FirebaseStructure.Scoreboards.Scores.WEIGHT, weight);
         return map;
     }
 
     public void increaseScore() {
         score++;
+    }
+
+    public void generateWeight() {
+        weight = -((timeRemaining == 0 ? 1 : timeRemaining) * score);
     }
 }

@@ -17,6 +17,7 @@ public class FirebaseStructure {
             public static final String SCORE = "Score";
             public static final String REMAINING_TIME = "RemainingTime";
             public static final String SUBMIT_DATETIME = "SubmitDateTime";
+            public static final String WEIGHT = "Weight";
         }
     }
 }

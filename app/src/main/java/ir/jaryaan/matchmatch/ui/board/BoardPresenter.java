@@ -146,6 +146,7 @@ public class BoardPresenter implements BoardContract.Presenter,
     public void onScoreSubmitted(@NonNull ScoreboardLevel scoreboardLevel) {
         if (!isSubmitting) {
             isSubmitting = true;
+            scoreboardLevel.generateWeight();
             scoreboardLevel.setSubmitTime(DateTime.now().getMillis());
             Subscription subscription = scoreManager.sendScore(view.getScoreId(), scoreboardLevel)
                     .subscribeOn(schedulerProvider.getComputationScheduler())

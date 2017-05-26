@@ -12,6 +12,9 @@
 
     <color name="colorDeepOrange900">#BF360C</color>
     <color name="colorRed900">#B71C1C</color>
+
+    <color name="colorLightGreenA100">#CCFF90</color>
+
     <color name="colorBlueGrey400">#78909C</color>
     <color name="colorBlueGrey500">#607D8B</color>
     <color name="colorBlueGrey600">#546E7A</color>

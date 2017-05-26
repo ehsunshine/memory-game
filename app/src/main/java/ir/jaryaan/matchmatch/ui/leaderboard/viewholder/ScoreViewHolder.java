@@ -2,6 +2,7 @@ package ir.jaryaan.matchmatch.ui.leaderboard.viewholder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,15 +38,20 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
     TextView submitTextView;
     private Context context;
     private ScoreboardLevel scoreboardLevel;
+    private String scoreID;
 
-    public ScoreViewHolder(@NonNull View itemView) {
+    public ScoreViewHolder(@NonNull View itemView, @NonNull String scoreID) {
         super(itemView);
         this.context = itemView.getContext().getApplicationContext();
+        this.scoreID = scoreID;
         ButterKnife.bind(this, itemView);
     }
 
     public void onBindView(@NonNull ScoreboardLevel scoreboardLevel) {
         this.scoreboardLevel = scoreboardLevel;
+        if (scoreboardLevel.getScoreID().equals(scoreID)) {
+            bodyContainer.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorLightGreenA100));
+        }
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE MM/dd/yyyy HH:mm:ss");
 
         scoreTextView.setText(context.getString(R.string.score,
@@ -58,6 +64,7 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
 
     public static class Builder {
         private ViewGroup parent;
+        private String scoreID;
 
         @NonNull
         public Builder parent(@NonNull ViewGroup parent) {
@@ -70,7 +77,12 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_score_item, parent, false);
 
-            return new ScoreViewHolder(view);
+            return new ScoreViewHolder(view, scoreID);
+        }
+
+        public Builder scoreID(String scoreId) {
+            this.scoreID = scoreId;
+            return this;
         }
     }
 }

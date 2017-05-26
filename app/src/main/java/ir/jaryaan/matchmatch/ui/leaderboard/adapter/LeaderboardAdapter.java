@@ -31,6 +31,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ScoreViewHolder.Builder()
                 .parent(parent)
+                .scoreID(currentScoreId)
                 .build();
     }
 

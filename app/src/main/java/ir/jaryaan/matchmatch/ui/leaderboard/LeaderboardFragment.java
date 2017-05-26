@@ -69,7 +69,8 @@ public class LeaderboardFragment extends BaseFragment implements
     protected void initViews() {
         adapter = new LeaderboardAdapter(scoreID);
         updateScreenTitle(getString(R.string.leaderboard));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         presenter.onViewInitialized();
     }
