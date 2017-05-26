@@ -33,17 +33,17 @@ public class LeaderboardPresenter implements LeaderboardContract.Presenter {
     public void onViewInitialized() {
         String levelName = "";
         switch (view.getLeaderboardId()) {
+            case 0:
+                levelName = "Easy";
+                break;
             case 1:
-                levelName = "easy";
+                levelName = "Normal";
                 break;
             case 2:
-                levelName = "normal";
+                levelName = "Hard";
                 break;
             case 3:
-                levelName = "hard";
-                break;
-            case 4:
-                levelName = "insane";
+                levelName = "Insane";
                 break;
         }
         listenToNewScore(levelName);

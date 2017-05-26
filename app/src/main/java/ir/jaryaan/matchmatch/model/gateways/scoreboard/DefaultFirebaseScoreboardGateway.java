@@ -40,10 +40,8 @@ public class DefaultFirebaseScoreboardGateway
             childEventListener[0] = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        ScoreboardLevel scoreboardLevel = ScoreboardLevel.fromMap((Map<String, Object>) postSnapshot.getValue());
-                        subscriber.onNext(scoreboardLevel);
-                    }
+                    ScoreboardLevel scoreboardLevel = ScoreboardLevel.fromMap((Map<String, Object>) dataSnapshot.getValue());
+                    subscriber.onNext(scoreboardLevel);
                 }
 
                 @Override
